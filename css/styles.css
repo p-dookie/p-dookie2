@@ -1,0 +1,345 @@
+h3, h4 {
+  font-family: 'Bebas Neue', cursive
+}
+
+video {
+  border-radius: 12px
+}
+
+.mobile {
+  margin-left: 12px
+}
+
+.parag .pok {
+  margin: 7% 15%
+}
+
+.nav-link:hover {
+  text-decoration: underline
+}
+
+.nav-link {
+  font-family: 'Bebas Neue', cursive;
+  margin-left: 20px;
+  margin-right: 20px;
+  font-size: 1.3rem
+}
+
+.main-itself {
+  border-radius: 12px;
+  height: 500px
+}
+
+.navbar-brand {
+  font-size: 2.5rem;
+  font-family: 'Bebas Neue', cursive
+}
+
+.create {
+  text-align: center
+}
+
+.title {
+  margin: 0
+}
+
+.big {
+  font-family: 'Bebas Neue', cursive;
+  font-size: 4rem
+}
+
+.small {
+  font-family: 'Jost', sans-serif;
+  font-size: 1.5em
+}
+
+.btn {
+  margin: 15px 20px 15px 0;
+  padding-left: 20px;
+  padding-right: 20px
+}
+
+#footer {
+  text-align: center
+}
+
+.footnotes {
+  font-family: 'Rubik', sans-serif
+}
+
+.logo {
+  margin-left: 20%;
+  width: 100%
+}
+
+#body {
+  margin: 7% 15%
+}
+
+.med {
+  font-size: 1rem
+}
+
+.gool {
+  text-align: center;
+  margin: 25px
+}
+
+.heading {
+  text-align: center;
+  margin: 75px 100px 10px 100px;
+  font-size: 3rem;
+  font-family: 'Jost', sans-serif
+}
+
+.cardle {
+  width: 24rem;
+  margin: 20px;
+  display: inline-block;
+  text-align: left
+}
+
+#cards {
+  text-align: center
+}
+
+.card-header {
+  text-align: center
+}
+
+#feet {
+  margin: 3% 20% 100px
+}
+
+#sign-in {
+  margin: 0 35%
+}
+
+.caster {
+  width: 200px;
+  margin: 100px 0 0 0
+}
+
+#title-section {
+  padding: 6% 12%
+}
+
+.textbox {
+  margin: 50px 20% 50px 20%
+}
+
+.carione {
+  background-image: url(../images/mk1.jpg)
+}
+
+@media (max-width:1200px) {
+  .row {
+    margin: 3% 7%;
+    text-align: center
+  }
+
+  #sign-in {
+    margin: 100px 10%
+  }
+
+  .logo {
+    margin-left: 0;
+    width: 100%;
+    margin-top: 50px;
+    margin-bottom: 50px
+  }
+
+  .big {
+    font-size: 2.5rem
+  }
+
+  .small {
+    font-size: 1rem
+  }
+
+  .heading {
+    text-align: center;
+    margin: 25px 0 0 0;
+    font-size: 3rem;
+    font-family: 'Jost', sans-serif
+  }
+
+  #cards {
+    margin: 3% 3%;
+    text-align: center
+  }
+
+  .card-header {
+    text-align: center
+  }
+
+  .heading {
+    margin: 25px 50px 0 50px
+  }
+}
+
+.tanktn {
+  margin-bottom: 10px
+}
+
+.aline {
+  text-align: center
+}
+
+#tanks {
+  margin: 50px 7%
+}
+
+.broi {
+  text-align: center;
+  margin: 50px
+}
+
+.tank-img {
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 12px;
+  margin-bottom: 20px
+}
+
+.custurd {
+  padding: 20px;
+  border-radius: 12px;
+  margin-top: 12px
+}
+
+.armcar {
+  width: 100%
+}
+
+.tank-title {
+  font-family: 'Bebas Neue', cursive;
+  font-size: 2.5rem
+}
+
+.icon {
+  width: 5%;
+  margin-right: 10px
+}
+
+#form {
+  margin: 7% 15%
+}
+
+.funny {
+  text-align: center
+}
+
+.fink {
+  margin-top: auto
+}
+
+.hidden, .heel {
+  display: none
+}
+
+.main-img {
+  text-align: center;
+  margin: 100px;
+  margin-bottom: 10px
+}
+
+.small-img {
+  height: 50px;
+  border-radius: 12px
+}
+
+.sm-imgs {
+  text-align: center
+}
+
+.main-text {
+  margin: 3% 13%
+}
+
+.contact-form {
+  display: none
+}
+
+.button-dropdown {
+  text-align: center
+}
+
+.text {
+  background-color: #f3f3f3;
+  padding: 12px;
+  border-radius: 12px
+}
+
+.current {
+  opacity: 50%;
+  border: 2px solid #000
+}
+
+.small-img:hover {
+  opacity: 50%
+}
+
+.user-title {
+  font-family: 'Bebas Neue', cursive
+}
+
+#peen {
+  display: none
+}
+
+.form-table {
+  text-align: center
+}
+
+.invisible {
+  display: none
+}
+
+@media (max-width:1000px) {
+  .main-itself {
+    height: 200px
+  }
+
+  .main-img {
+    text-align: center;
+    margin-left: 0;
+    margin-right: 0
+  }
+
+  .small-img {
+    height: 30px
+  }
+}
+
+.red {
+  color: red;
+  text-align: center;
+  font-family: 'Bebas Neue', cursive
+}
+
+.text-input {
+  margin: 5px
+}
+
+.peem {
+  text-align: center
+}
+
+.spleen {
+  width: 100%
+}
+.fas {
+  font-size: 3rem;
+}
+.thicc {
+  width:5rem;
+  text-align: center;
+}
+.p-dookie {
+  margin: 100px;
+}
+.backbid {
+  ba
+}
