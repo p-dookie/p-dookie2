@@ -40,6 +40,7 @@ app.get("/signin", function(req, res) {
 app.get("/ifv", function(req, res) {
   res.sendFile(__dirname + "/IFV.html");
 });
+
 app.get("/armouredcars", function(req, res) {
   res.sendFile(__dirname + "/arm-cars.html");
 });
@@ -48,7 +49,7 @@ app.post("/signin", function(req, res) {
   var one = req.body.first;
   var two = req.body.second;
   var result = "Your email is: " + one + "<br>Your password is: " + two;
-
+  console.log(result);
   fs.readFile(__dirname + "/singedin.html", (err, data) => {
     res.send(data.toString().replace('<--!result-->', result));
   });
