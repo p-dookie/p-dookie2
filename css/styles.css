@@ -251,7 +251,7 @@ video {
   width:100%;
   margin:50px;
 }
-@media (max-width:1080px) {
+@media (max-width:1000px) {
   .main-itself {
     height: 300px
   }
@@ -315,6 +315,9 @@ video {
 
   .small-img {
     height: 40px
+  }
+  .icon {
+    margin-left: auto;
   }
 }
 

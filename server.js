@@ -19,6 +19,8 @@ app.use("/sounds", express.static("sounds"))
 
 app.get("/", function(req, res) {
   res.sendFile(__dirname + "/index.html");
+  let ip = req.ip
+  console.log(ip);
 });
 
 app.get("/tanks", function(req, res) {
@@ -57,7 +59,7 @@ app.post("/signin", function(req, res) {
 
 app.use(function(req, res, next) {
   res.status(404).sendFile(__dirname + "/failure.html");
-})
+});
 
 app.listen(3000, function() {
   console.log("Server started at port 3000.");
