@@ -91,7 +91,8 @@ video {
   width: 24rem;
   margin: 20px;
   display: inline-block;
-  text-align: left
+  text-align: left;
+  height:auto
 }
 
 #cards {
@@ -108,11 +109,6 @@ video {
 
 #sign-in {
   margin: 0 35%
-}
-
-.caster {
-  width: 200px;
-  margin: 100px 0 0 0
 }
 
 #title-section {
@@ -248,12 +244,68 @@ video {
   display: none
 }
 .logo {
-  width:100%;
+  width:75%;
   margin:50px;
 }
+html,
+body {
+  height: 100%;
+}
+
+
+
+.form-signin {
+  width: 100%;
+  max-width: 330px;
+  padding: 15px;
+  margin: auto;
+}
+.form-signin .checkbox {
+  font-weight: 400;
+}
+.form-signin .form-control {
+  position: relative;
+  box-sizing: border-box;
+  height: auto;
+  padding: 10px;
+  font-size: 16px;
+}
+.top {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.middle {
+  border-radius: 0;
+  margin-bottom: -1px;
+}
+.bottom {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+.muselee {
+  border-radius:100%;
+  height: 110px;
+  width: 110px;
+}
+
+
 @media (max-width:1080px) {
+h3 {
+  font-size: 3rem;
+}
+.cardle {
+  width:90%;
+}
   .main-itself {
     height: 300px
+  }
+  .icon {
+  margin-left: auto;
+  }
+  .nav-link {
+    font-size: 2rem
   }
   #body {
     margin: 1% 5%
@@ -265,8 +317,6 @@ video {
     width:200%;
     margin: 100px auto 0 auto;
   }
-
-
   .row {
     margin: 3% 7%;
     text-align: center
@@ -359,6 +409,9 @@ video {
 @media (max-width:800px) {
   .logo{
     width:100%;
+  }
+  .big {
+    font-size:3rem;
   }
 }
 /* @media (min-width:1100px) {
