@@ -15,7 +15,7 @@ app.use("/indexjs", express.static("indexjs"));
 app.use("/images", express.static("images"));
 app.use("/videos", express.static("videos"));
 app.use("/memeimgs", express.static("memeimgs"));
-app.use("/sounds", express.static("sounds"))
+app.use("/sounds", express.static("sounds"));
 
 app.get("/", function(req, res) {
   res.sendFile(__dirname + "/index.html");
