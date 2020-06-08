@@ -60,7 +60,9 @@ video {
 }
 
 #footer {
-  text-align: center
+  text-align: center;
+  margin-top: 100px;
+  margin-bottom: 100px;
 }
 
 .footnotes {
@@ -68,7 +70,7 @@ video {
 }
 
 #body {
-  margin: 7% 15%
+  margin: 1% 15%
 }
 
 .med {
