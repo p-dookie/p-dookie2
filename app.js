@@ -49,6 +49,10 @@ app.get("/armouredcars", function(req, res) {
   res.sendFile(__dirname + "/arm-cars.html");
 });
 
+app.get("/featured", function(req, res) {
+  res.sendFile(__dirname + "/featured.html");
+});
+
 app.post("/signin", function(req, res) {
   var one = req.body.first;
   var two = req.body.second;
