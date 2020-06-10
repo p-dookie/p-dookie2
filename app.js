@@ -2,9 +2,9 @@ const express = require("express");
 
 const bodyParser = require("body-parser")
 
-const fs = require('fs');
-
 const app = express();
+
+app.set('view engine', 'ejs');
 
 const https = require("https");
 
@@ -12,21 +12,15 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
-app.use("/css", express.static("css"));
-app.use("/indexjs", express.static("indexjs"));
-app.use("/images", express.static("images"));
-app.use("/videos", express.static("videos"));
-app.use("/memeimgs", express.static("memeimgs"));
-app.use("/sounds", express.static("sounds"));
+app.use("/public", express.static("public"));
+
 
 app.get("/", function(req, res) {
-  res.sendFile(__dirname + "/index.html");
-  let ip = req.ip
-  console.log(ip);
+  res.render("index");
 });
 
 app.get("/tanks", function(req, res) {
-  res.sendFile(__dirname + "/tanks.html");
+  res.render("tanks.ejs");
 });
 
 app.get("/pricing", function(req, res) {

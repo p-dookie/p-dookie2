@@ -32,3 +32,9 @@
 .nav-item {
   text-align: left;
 }
+@media (max-width:1080px) {
+  .form-signin {
+    width: 100%;
+    max-width: 100%;
+
+}
