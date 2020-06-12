@@ -1,20 +1,22 @@
 <%- include("header") -%>
+
+
+
+
   <div class="main-img">
-    <img class="main-itself" src="public/images/brad copy.jpg" alt="Fuc">
+    <img class="main-itself" src="/public/images/<%= tankSRC %>" alt="Fuc">
   </div>
   <div class="sm-imgs">
-    <img class="current small-img sm-one" src="public/images/brad copy.jpg" alt="">
-    <img class="small-img sm-two" src="public/images/leclerc.jpg" alt="">
-    <img class="small-img sm-three" src="public/images/leo-2.jpg" alt="">
-    <img class="small-img sm-four" src="public/images/mk1.jpg" alt="">
-    <img class="small-img sm-five" src="public/images/t-14.jpg" alt="Fuck">
-    <img class="small-img sm-five" src="public/images/yode.jpg" alt="Fuck">
+    <img class="current small-img sm-one" src="/public/images/<%= tankSRC %>" alt="">
+    <img class="small-img sm-two" src="/public/images/leclerc.jpg" alt="">
+    <img class="small-img sm-three" src="/public/images/leo-2.jpg" alt="">
+    <img class="small-img sm-four" src="/public/images/mk1.jpg" alt="">
+    <img class="small-img sm-five" src="/public/images/t-14.jpg" alt="Fuck">
+    <img class="small-img sm-five" src="/public/images/yode.jpg" alt="Fuck">
   </div>
   <div class="main-text text">
-    <h1 class= "user-title">Tanks for sale</h1>
-    <p class="title med text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Facilisis sed odio morbi quis. Massa eget egestas purus viverra accumsan in. Vestibulum mattis ullamcorper velit sed
-      ullamcorper morbi tincidunt ornare. Nisl purus in mollis nunc. Vestibulum morbi blandit cursus risus at ultrices mi tempus. Vitae purus faucibus ornare suspendisse sed nisi lacus sed viverra. Elit at imperdiet dui accumsan sit amet. Non nisi
-      est sit amet facilisis. In massa tempor nec feugiat nisl pretium. Suscipit adipiscing bibendum est ultricies integer quis auctor elit. Auctor neque vitae tempus quam pellentesque nec nam.
+    <h1 class= "user-title"><%= userPageTitle %></h1>
+    <p class="title med text"><%= userPageBody %></p>
       <br><br>
 
 <h1 class= "user-title">Maintenance Record</h1>
@@ -37,14 +39,14 @@
 <section id = "bottom">
 
   <div  class = "contact-form text main-text">
-  <h6><strong>Minimum Offer:</strong> $120, 000</h6>
+  <h6><strong>Minimum Offer:</strong> <%= tankPrice %> </h6>
   <h6><strong>Current Offer:</strong> $273, 052</h6><br>
 <p class = "title">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Diam maecenas sed enim ut sem. Ultrices mi tempus imperdiet nulla malesuada pellentesque elit eget. Pretium fusce id velit ut tortor pretium. Tincidunt arcu non sodales neque sodales ut. Risus nullam eget felis eget nunc. Mi eget mauris pharetra et ultrices neque ornare aenean. Nunc scelerisque viverra mauris in aliquam sem. Adipiscing enim eu turpis egestas pretium aenean pharetra magna. Scelerisque eu ultrices vitae auctor eu augue ut lectus arcu. Tellus pellentesque eu tincidunt tortor. Mollis nunc sed id semper risus. Suspendisse potenti nullam ac tortor.</p>
 
 <br>
 <div class="peem">
 <video class = "spleen" controls>
-<source src="public/videos/peem.mp4" type="video/mp4">
+<source src="../public/videos/peem.mp4" type="video/mp4">
 </video>
 </div>
 </section>
