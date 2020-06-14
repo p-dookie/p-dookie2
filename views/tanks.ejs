@@ -1,7 +1,7 @@
-<%- include("header") -%>
+<%- include("partials/header") -%>
 
 <div class="broi">
-  <h1>Browse our wide selection of tanks!</h1>
+  <h1><%= pageTitle %></h1>
 </div>
 <section id="tanks">
   <div class="row pok">
@@ -15,7 +15,7 @@
     <div class="fink">
 
       <h6><strong>Price:</strong> <%= tank.tankPrice %> </h6>
-      <a class = "btn btn-primary btn-block" href="/tanks/<%= tank.tankName %>">Learn More</a>
+      <a class = "btn btn-primary btn-block" href="<%= getURL %><%= tank.tankName %>">Learn More</a>
     </div>
   </div>
 <% }); %>
@@ -23,4 +23,4 @@
 
 
 </section>
-<%- include("footer") -%>
+<%- include("partials/footer") -%>
