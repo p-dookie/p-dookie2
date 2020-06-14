@@ -1,14 +1,14 @@
 <%- include("partials/header") -%>
 
 <div class="broi">
-  <h1><%= pageTitle %></h1>
+  <h1>Browse our wide selection of <%= pageTitle %></h1>
 </div>
 <section id="tanks">
   <div class="row pok">
 <% tanks.forEach(function(tank) { %>
   <div class="card custurd col-lg-4">
     <h2 class="tank-title"> <%= tank.tankName %></h2>
-    <img class="tank-img" src="public/images/<%= tank.tankSRC %>" alt="tank-img, posted by user">
+    <img class="tank-img" src="<%= tank.tankSRC %>" alt="tank-img, posted by user">
 
     <p class="title"><%= tank.tankBody %></p>
     <br>
@@ -23,4 +23,5 @@
 
 
 </section>
+
 <%- include("partials/footer") -%>

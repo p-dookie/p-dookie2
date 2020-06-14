@@ -39,7 +39,3 @@ for (let i = 0; i < smallImage.length; i++) {
 $(".button-dropdown").on("click", function() {
   $(".contact-form").slideToggle();
 });
-$(".submit").click(function() {
-  $(".red").removeClass("invisible");
-  $(".form-table").addClass("invisible");
-});

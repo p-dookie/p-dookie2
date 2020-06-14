@@ -380,3 +380,12 @@ h3 {
     font-size:3rem;
   }
 }
+.comp-body {
+  padding: 7% 15%;
+}
+
+.compositionForm {
+  display: block;
+  width: 100%;
+  margin: 10px 0;
+}
