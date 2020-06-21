@@ -1,11 +1,18 @@
 h3, h4 {
   font-family: 'Bebas Neue', cursive
 }
+.head-about{
+  display: inline-block;
+  text-align: left;
+  margin: 0;
+}
 
 video {
   border-radius: 12px
 }
-
+.comp-body {
+  padding: 7% 15%;
+}
 .mobile {
   margin-left: 12px
 }
@@ -98,6 +105,12 @@ video {
 
 #cards {
   text-align: center
+}
+
+.red-gold {
+  border-radius: 100%;
+  float: left;
+  width: 25%;
 }
 
 .card-header {
@@ -255,6 +268,9 @@ video {
 h3 {
   font-size: 3rem;
 }
+.comp-body {
+  padding: 1% 1%;
+}
 .cardle {
   width:90%;
 }
@@ -380,12 +396,14 @@ h3 {
     font-size:3rem;
   }
 }
-.comp-body {
-  padding: 7% 15%;
-}
+
 
 .compositionForm {
   display: block;
   width: 100%;
   margin: 10px 0;
+}
+.about-div {
+  text-align: center;
+  margin: 7% 15%;
 }
