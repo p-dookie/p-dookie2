@@ -271,6 +271,15 @@ h3 {
 .comp-body {
   padding: 1% 1%;
 }
+.head-about{
+  text-align: center;
+}
+
+.red-gold {
+  float: none;
+  text-align: center;
+  width: 30%;
+}
 .cardle {
   width:90%;
 }
@@ -406,4 +415,7 @@ h3 {
 .about-div {
   text-align: center;
   margin: 7% 15%;
+}
+.gagle {
+  margin: 10%;
 }

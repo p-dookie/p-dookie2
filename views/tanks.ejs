@@ -10,7 +10,7 @@
     <h2 class="tank-title"> <%= tank.tankName %></h2>
     <img class="tank-img" src="<%= tank.images.tankSRC1 %>" alt="tank-img, posted by user">
 
-    <p class="title"><%= tank.tankBody %></p>
+    <p class="title"><%= tank.tankBody.substring(0, 350) %> ...</p>
     <br>
     <div class="fink">
 
