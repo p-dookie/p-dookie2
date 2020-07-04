@@ -7,20 +7,19 @@
   <div class="row pok">
 <% tanks.forEach(function(tank) { %>
   <div class="card custurd col-lg-4 col-sm-12">
-    <h2 class="tank-title"> <%= tank.tankName %></h2>
+    <h2 class="tank-title"> <%= tank.tankName.substring(0, 20) %></h2>
     <img class="tank-img" src="<%= tank.images.tankSRC1 %>" alt="tank-img, posted by user">
 
     <p class="title"><%= tank.tankBody.substring(0, 350) %> ...</p>
     <br>
     <div class="fink">
 
-      <h6><strong>Price:</strong> <%= tank.tankPrice %> </h6>
-      <a class = "btn btn-primary btn-block" href="<%= getURL %><%= tank.tankName %>">Learn More</a>
+      <h6 class = "title"><strong>Price:</strong> <%= tank.tankPrice %> </h6>
+      <br>
+      <a class = "title"href="<%= getURL %><%= tank.tankName %>">Learn More</a>
     </div>
   </div>
 <% }); %>
-
-
 
 </section>
 

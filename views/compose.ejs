@@ -1,10 +1,12 @@
 <%- include("partials/header") -%>
 <div class="comp-body">
 <h1>Compose your listing</h1>
+<a class = "BeanusFeanus" href="#">find out how</a>
+
 <br />
 <form action="/compose" method="post">
 <label class = "title compositionForm">Title</label>
-<input required class = "title compositionForm" type="text" name="title" autofocus>
+<input required class = "title compositionForm" type="text" id= "title1" name="title" autofocus>
 <label class = "title compositionForm" >Paragraph body</label>
 <textarea required class = "compositionForm" name = "body" rows="8" cols="80"></textarea>
 <br>
