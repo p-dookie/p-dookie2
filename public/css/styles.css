@@ -269,13 +269,10 @@ video {
   margin:50px;
 }
 
-
-
 @media (max-width:1080px) {
 h3 {
   font-size: 3rem;
 }
-
 .comp-body {
   padding: 1% 1%;
 }
@@ -294,7 +291,7 @@ h3 {
   width:90%;
 }
   .main-itself {
-    height: 300px
+    height: 300px;
   }
   .icon {
   margin-left: auto;
