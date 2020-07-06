@@ -1,7 +1,8 @@
 h3, h4 {
   font-family: 'Bebas Neue', cursive
 }
-.head-about{
+
+.head-about {
   display: inline-block;
   text-align: left;
   padding: 0 20%;
@@ -10,9 +11,11 @@ h3, h4 {
 video {
   border-radius: 12px
 }
+
 .comp-body {
   padding: 7% 15%;
 }
+
 .mobile {
   margin-left: 12px
 }
@@ -96,12 +99,16 @@ video {
   font-family: 'Jost', sans-serif
 }
 
+.redie {
+  color: red;
+}
+
 .cardle {
   width: 24rem;
   margin: 20px;
   display: inline-block;
   text-align: left;
-  height:auto
+  height: auto
 }
 
 #cards {
@@ -141,8 +148,6 @@ video {
 .carione {
   background-image: url(../images/mk1.jpg)
 }
-
-
 
 .tanktn {
   margin-bottom: 10px
@@ -264,51 +269,77 @@ video {
 .invisible {
   display: none
 }
+
 .logo {
-  width:75%;
-  margin:50px;
+  width: 75%;
+  margin: 50px;
+}
+
+.navbar-toggler {
+  font-size: 4rem;
 }
 
 @media (max-width:1080px) {
-h3 {
-  font-size: 3rem;
-}
-.comp-body {
-  padding: 1% 1%;
-}
-.head-about{
-  text-align: center;
-  padding: 0;
-  display: block;
+  h3 {
+    font-size: 3rem;
+  }
 
-}
+  .navbar-brand {
+    font-size: 4rem;
+  }
 
-.red-gold {
-  text-align: center;
-  width: 30%;
-}
-.cardle {
-  width:90%;
-}
+  .com {
+    font-size: 2.2rem;
+  }
+
+  .comp-body {
+    padding: 1% 1%;
+  }
+
+  .head-about {
+    text-align: center;
+    padding: 0;
+    display: block;
+  }
+
+  .navbar-mobile {
+    font-size: 2rem;
+  }
+
+  .red-gold {
+    text-align: center;
+    width: 30%;
+  }
+
+  .cardle {
+    width: 90%;
+  }
+
   .main-itself {
     height: 300px;
   }
+
   .icon {
-  margin-left: auto;
+    margin-left: auto;
   }
+
   .nav-link {
     font-size: 2rem
   }
+
   #body {
     margin: 1% 5%
   }
+
   .title {
     font-size: 1.5rem
   }
+
   .logo {
-    width:200%;
+    width: 200%;
     margin: 100px auto 0 auto;
   }
+
   .row {
     margin: 3% 7%;
     text-align: center
@@ -317,15 +348,19 @@ h3 {
   #sign-in {
     margin: 100px 10%
   }
+
   .main-text {
     margin: 3% 5%
   }
+
   .big {
     font-size: 4rem
   }
-.preen {
-  font-size: 2rem;
-}
+
+  .preen {
+    font-size: 2rem;
+  }
+
   .small {
     font-size: 2rem
   }
@@ -349,6 +384,7 @@ h3 {
   .heading {
     margin: 25px 50px 0 50px
   }
+
   .main-img {
     text-align: center;
     margin-left: 0;
@@ -358,9 +394,11 @@ h3 {
   .small-img {
     height: 40px;
   }
+
   .icon {
     margin-left: auto;
   }
+
   .hooler {
     font-size: 3rem;
   }
@@ -404,25 +442,28 @@ h3 {
 #fail-img {
   height: 556px;
 }
+
 @media (max-width:800px) {
-  .logo{
-    width:100%;
+  .logo {
+    width: 100%;
   }
+
   .big {
-    font-size:3rem;
+    font-size: 3rem;
   }
 }
-
 
 .compositionForm {
   display: block;
   width: 100%;
   margin: 10px 0;
 }
+
 .about-div {
   text-align: center;
   margin: 7% 15%;
 }
+
 .gagle {
   margin: 10%;
 }

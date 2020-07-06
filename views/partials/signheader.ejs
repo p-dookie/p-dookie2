@@ -37,10 +37,19 @@
             <a class="navbar-mobile dropdown-item" href="#">More</a>
           </div>
         </li>
-        <a class="nav-link navbar-mobile" href="/signin">Sign In</a>
-        <a class="nav-link navbar-mobile" href="/pricing">Sign Up</a>
+        <li class="nav-item dropdown">
+          <a class="navbar-mobile nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <%= epicName %>
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <p class="navbar-mobile dropdown-item"><%= epicEmail %></p>
+            <a class="navbar-mobile dropdown-item redie" href="/signin">Sign Out</a>
 
-
+          </div>
+        </li>
+        <li class="nav-item">
+          <a class="navbar-mobile nav-link" href="/compose">Post</a>
+        </li>
       </ul>
     </div>
   </nav>

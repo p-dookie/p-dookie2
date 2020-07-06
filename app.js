@@ -2,11 +2,15 @@ const express = require("express");
 
 const bodyParser = require("body-parser")
 
+const shortid = require("shortid")
+
 const _ = require("lodash")
 
-const weaponsdealers = express();
+const app = express();
 
-weaponsdealers.set('view engine', 'ejs');
+app.set('view engine', 'ejs');
+
+
 
 const tankPageTitle = "tanks!";
 const ifvPageTitle = "IFVs!";
@@ -20,11 +24,44 @@ const peasantSignup = "pes";
 const premiumSignup = "pre";
 const millitiaSignup = "mil";
 
+const users = [
+  {
+    userEmail: "colm12345@icloud.com",
+    userPassword: "HeisComeingOhMyGodItIsTrue",
+    userName: "PenisMusic",
+    userType: "millitia"
+  },
+  {
+    userEmail: "colm.henry@hotmail.com",
+    userPassword: "DisplayingSignsOfMentalIllness",
+    userName: "ColmHenry6",
+    userType: "millitia"
+  },
+  {
+    userEmail: "luccahenry007@gmail.com",
+    userPassword: "Colm1lucca",
+    userName: "twitch.tv/simp",
+    userType: "peasant"
+  },
+  {
+    userEmail: "paul_henry@shaw.ca",
+    userPassword: "Colm1lucca",
+    userName: "paul",
+    userType: "premium"
+  },
+  {
+    userName: "super dad",
+    userEmail: "paul_henry@shaw.ca",
+    userType: "peasant",
+    userPassword: "hank",
+  }
+]
 const tanks = [
   {
   tankName: "T-34",
   tankBody: "T-34 tank. it is in very good condition. After the second world war, this tank along with many others were shipped to north korea. It partook in a few key battles before being sold to a british man. My grandfather who passed it down to me. I am in a rough spot financially and now I need some cash some I am selling it.",
   tankPrice: "$68,000 USD",
+  tankId: "7jqnjyuti",
   tankName2: "Classic WWII Vehicle",
   tankBody2: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Vitae congue eu consequat ac felis donec et odio. Fames ac turpis egestas sed tempus. Gravida dictum fusce ut placerat orci nulla pellentesque dignissim. Nunc id cursus metus aliquam eleifend mi in nulla posuere. Magna eget est lorem ipsum dolor sit amet. Mattis pellentesque id nibh tortor id aliquet lectus. Vitae auctor eu augue ut lectus arcu bibendum. Pretium vulputate sapien nec sagittis aliquam malesuada bibendum. In hac habitasse platea dictumst quisque sagittis purus. Nam libero justo laoreet sit. Congue quisque egestas diam in arcu cursus euismod quis viverra.",
   tankName3: "A juicy morsel of russian history",
@@ -40,6 +77,7 @@ const tanks = [
 },
   {
   tankName: "T-14 Armata",
+  tankId: "f-f-5ih6q",
   tankBody: "I got this baby back in 2019 but I my wife, karen took the kids, I have no money, no car, no house. All I have is this tank. I need to sell to get something a bit more spacious, maybe an abrahams. The t-14 is a bit cramped but it's incredibally combat effective. it's fast, has a big ass gun and is great for the average sports tank driver.",
   tankPrice: "$5, 463, 599. USD",
   tankName2: "Ahead of it's time",
@@ -57,6 +95,7 @@ const tanks = [
 },
   {
   tankName: "Leopard 2",
+  tankId: "nwcsh4slb",
   tankBody: "This vehicle was bought back in 2012, I have maintained it beautifully during the time I have had it. Starts easily every time, purs like a new bord kitten. I love this thing and I am so sad to see it go but I really don't have a choice. However I will make sure that whoever gets will take care of it eactly as I have. I feel like I am writing an obituary.",
   tankPrice: "$2, 382, 901. USD",
   tankName2: "An undeniable classic",
@@ -74,6 +113,7 @@ const tanks = [
 },
   {
   tankName: "Sherman 76mm",
+  tankId: "lvqbbzfsp",
   tankBody: "I bought this for my neighbors cat but as it turns out he did not like it as much as I expected. that ran from the fucking thing the moment he saw it. As you can probably imagin I am very disapointed with my neighbor. He should have taught This cat from a young age to be a competent tank comander but I guess he didn't Im selling it now, the things brand new with no problems.",
   tankPrice: "$500, 378. USD",
   tankName2: "An undeniable martar of history",
@@ -91,6 +131,7 @@ const tanks = [
 },
   {
   tankName: "M1A2 Abrahams",
+  tankId: "m0bay7okc",
   tankBody: "Don't get too excited, yes I know, i'm selling my abrahams. To tell you the truth I really don't have the passion anymore to maintaine such a beautiful machine. Knowing what I know today I would never let it sit to rust and die, so, I have decided to pass it on to somebody else. Over the years I have maintained the thing perfectly. There are no issues to speak of. The first to contact me can have it.",
   tankPrice: "$4, 112, 051. USD",
   tankName2: 'This one think he big and bad',
@@ -108,9 +149,10 @@ const tanks = [
 },
   {
   tankName: "Centurion",
+  tankId: "ci8ox1hrd",
   tankBody: "It curently is just rusting and dying. I have never cared for armoured fighting vehicles. I just want to sell the thing before It loses all of it's vallue. Everything is pretty much brand new with the exception of the left sproket wich is rusted over and the engin wich needs to be replaced.",
   tankPrice: "$49, 652. USD",
-  tankName2: "Cheapest tank on weaponsdealers",
+  tankName2: "Cheapest tank on p-dookie",
   tankBody2: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Vitae congue eu consequat ac felis donec et odio. Fames ac turpis egestas sed tempus. Gravida dictum fusce ut placerat orci nulla pellentesque dignissim. Nunc id cursus metus aliquam eleifend mi in nulla posuere. Magna eget est lorem ipsum dolor sit amet. Mattis pellentesque id nibh tortor id aliquet lectus. Vitae auctor eu augue ut lectus arcu bibendum. Pretium vulputate sapien nec sagittis aliquam malesuada bibendum. In hac habitasse platea dictumst quisque sagittis purus. Nam libero justo laoreet sit. Congue quisque egestas diam in arcu cursus euismod quis viverra.",
   tankName3: "Needs new engine",
   tankBody3: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Vitae congue eu consequat ac felis donec et odio. Fames ac turpis egestas sed tempus. Gravida dictum fusce ut placerat orci nulla pellentesque dignissim. Nunc id cursus metus aliquam eleifend mi in nulla posuere. Magna eget est lorem ipsum dolor sit amet. Mattis pellentesque id nibh tortor id aliquet lectus. Vitae auctor eu augue ut lectus arcu bibendum. Pretium vulputate sapien nec sagittis aliquam malesuada bibendum. In hac habitasse platea dictumst quisque sagittis purus. Nam libero justo laoreet sit. Congue quisque egestas diam in arcu cursus euismod quis viverra.",
@@ -127,6 +169,7 @@ const tanks = [
 const ifvs = [
   {
   tankName: "m3 bradley",
+  tankId: "2chx8uno2",
   tankBody: "He fucking got them, he got them all. Oh shit I have nothing left. He killed my whole family I have run out of time. Please oh please send help please. I don't wanna die. It't little stuart, he came in the midle of the ngiht, me and my brothers have been running since noon yesterday. I am terrified. They already got johny. We are in the middle of the forest. I don't know how much longer we can go on. I can hear the rumble of their engines we are going to need to leave soon there is no doubt about it.",
   tankPrice: "$25, 000. USD",
   tankName2: "BrokenTest",
@@ -145,6 +188,7 @@ const ifvs = [
 },
   {
   tankName: "stryker",
+  tankId: "ogzgwt6au",
   tankBody: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
   tankPrice: "$4, 897, 667. USD",
   tankName2: "tidy mylk",
@@ -163,7 +207,8 @@ const ifvs = [
 },
   {
   tankName: "Borsuk IFV",
-  tankBody: "No one knows where it came from, what it's history is or why we ended up with it. Anyways we don't want it anymore and were wondering if any of you fine people that use weaponsdealers.com would want to take it off our hands. it is in very good condition with minimal wear and tear and the engin purs like a new born kitten, it also smells good. anyways please consider my request and respond to this within the next 48 hours. good bye.",
+  tankId: "tnvj5whbb",
+  tankBody: "No one knows where it came from, what it's history is or why we ended up with it. Anyways we don't want it anymore and were wondering if any of you fine people that use p-dookie.ca would want to take it off our hands. it is in very good condition with minimal wear and tear and the engin purs like a new born kitten, it also smells good. anyways please consider my request and respond to this within the next 48 hours. good bye.",
   tankPrice: "$1, 989 500. USD",
   tankName2: "Great for a quick burn",
   tankBody2: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Vitae congue eu consequat ac felis donec et odio. Fames ac turpis egestas sed tempus. Gravida dictum fusce ut placerat orci nulla pellentesque dignissim. Nunc id cursus metus aliquam eleifend mi in nulla posuere. Magna eget est lorem ipsum dolor sit amet. Mattis pellentesque id nibh tortor id aliquet lectus. Vitae auctor eu augue ut lectus arcu bibendum. Pretium vulputate sapien nec sagittis aliquam malesuada bibendum. In hac habitasse platea dictumst quisque sagittis purus. Nam libero justo laoreet sit. Congue quisque egestas diam in arcu cursus euismod quis viverra.",
@@ -180,6 +225,7 @@ const ifvs = [
 },
   {
     tankName: "BMP-1",
+    tankId: "1u4kwqybp",
     tankBody: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Vel elit scelerisque mauris pellentesque pulvinar pellentesque. Commodo nulla facilisi nullam vehicula ipsum a. Laoreet non curabitur gravida arcu ac tortor dignissim. Faucibus a pellentesque sit amet. Nulla facilisi etiam dignissim diam quis enim lobortis scelerisque fermentum. Dolor sed viverra ipsum nunc. Elementum nisi quis eleifend quam adipiscing vitae. Nisl vel pretium lectus quam id leo. Neque laoreet suspendisse interdum consectetur libero id. Tempor commodo ullamcorper a lacus vestibulum sed arcu non. Morbi tristique senectus et netus et.",
     tankBody2: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Pharetra sit amet aliquam id diam maecenas ultricies mi. Sed viverra ipsum nunc aliquet. Tortor posuere ac ut consequat semper viverra nam. Blandit massa enim nec dui nunc mattis enim. Auctor elit sed vulputate mi sit amet mauris commodo quis. Sem integer vitae justo eget magna fermentum iaculis. Massa enim nec dui nunc mattis enim. Pharetra magna ac placerat vestibulum lectus mauris. Viverra nam libero justo laoreet sit amet cursus. Quis imperdiet massa tincidunt nunc pulvinar sapien et ligula. Vitae semper quis lectus nulla at.",
     tankName2: "The first of it's tree",
@@ -197,6 +243,7 @@ const ifvs = [
   },
   {
     tankName: "BMP-2",
+    tankId: "jacs0sasv",
     tankBody: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Sit amet est placerat in egestas erat imperdiet. Quis risus sed vulputate odio ut enim blandit. Leo in vitae turpis massa sed elementum. A diam sollicitudin tempor id eu nisl. Sit amet risus nullam eget felis. Neque volutpat ac tincidunt vitae. Neque gravida in fermentum et sollicitudin ac. Cras adipiscing enim eu turpis egestas pretium aenean pharetra magna. Ut venenatis tellus in metus. Elementum curabitur vitae nunc sed velit dignissim sodales.",
     tankBody2: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Donec ultrices tincidunt arcu non sodales neque sodales ut. Etiam tempor orci eu lobortis elementum. Aenean sed adipiscing diam donec adipiscing tristique risus. Non pulvinar neque laoreet suspendisse. Est ullamcorper eget nulla facilisi etiam dignissim diam quis. Parturient montes nascetur ridiculus mus mauris vitae ultricies leo integer. Lacus vestibulum sed arcu non odio. Vitae proin sagittis nisl rhoncus mattis rhoncus urna neque. Tellus rutrum tellus pellentesque eu tincidunt. Aliquet lectus proin nibh nisl condimentum id venenatis a. Tempus urna et pharetra pharetra massa massa ultricies mi quis. Euismod in pellentesque massa placerat duis. Enim diam vulputate ut pharetra sit amet. Ultrices neque ornare aenean euismod elementum. Imperdiet proin fermentum leo vel orci porta non. Tincidunt ornare massa eget egestas purus viverra accumsan in. Lectus vestibulum mattis ullamcorper velit. Ultricies tristique nulla aliquet enim tortor at auctor urna. In massa tempor nec feugiat.",
     tankPrice: "$278, 898. USD",
@@ -214,6 +261,7 @@ const ifvs = [
   },
   {
     tankName: "BMP-3",
+    tankId: "zj0uektw0",
     tankPrice: "$852, 142. USD",
     tankBody: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Augue mauris augue neque gravida in fermentum et sollicitudin ac. Fermentum posuere urna nec tincidunt praesent semper. Adipiscing vitae proin sagittis nisl rhoncus mattis. In iaculis nunc sed augue lacus viverra vitae congue eu. Duis tristique sollicitudin nibh sit amet commodo nulla. Nullam non nisi est sit. Felis eget nunc lobortis mattis aliquam. Nunc sed blandit libero volutpat sed cras. Eu lobortis elementum nibh tellus molestie nunc non. At augue eget arcu dictum varius duis at consectetur lorem. Accumsan lacus vel facilisis volutpat est velit. Consectetur adipiscing elit pellentesque habitant morbi tristique senectus et netus. Non sodales neque sodales ut etiam. Egestas purus viverra accumsan in.",
     tankBody2: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Donec ultrices tincidunt arcu non sodales neque sodales ut. Etiam tempor orci eu lobortis elementum. Aenean sed adipiscing diam donec adipiscing tristique risus. Non pulvinar neque laoreet suspendisse. Est ullamcorper eget nulla facilisi etiam dignissim diam quis. Parturient montes nascetur ridiculus mus mauris vitae ultricies leo integer. Lacus vestibulum sed arcu non odio. Vitae proin sagittis nisl rhoncus mattis rhoncus urna neque. Tellus rutrum tellus pellentesque eu tincidunt. Aliquet lectus proin nibh nisl condimentum id venenatis a. Tempus urna et pharetra pharetra massa massa ultricies mi quis. Euismod in pellentesque massa placerat duis. Enim diam vulputate ut pharetra sit amet. Ultrices neque ornare aenean euismod elementum. Imperdiet proin fermentum leo vel orci porta non. Tincidunt ornare massa eget egestas purus viverra accumsan in. Lectus vestibulum mattis ullamcorper velit. Ultricies tristique nulla aliquet enim tortor at auctor urna. In massa tempor nec feugiat.",
@@ -233,6 +281,7 @@ const ifvs = [
 const armcars = [
   {
   tankName: "Cougar",
+  tankId: "i4q7dcwj7",
   tankBody: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
   tankPrice: "$89, 660. USD",
   tankName2: "Great Value",
@@ -250,6 +299,7 @@ const armcars = [
 },
   {
   tankName: "MRAP",
+  tankId: "4jd9l1ulp",
   tankBody: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
   tankPrice: "$109, 666. USD",
   tankName2: "We have many",
@@ -267,6 +317,7 @@ const armcars = [
 },
   {
   tankName: "Humvee",
+  tankId: "db6dknawn",
   tankBody: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
   tankPrice: "$23, 500. USD",
   tankName2: "Trusted by Millions",
@@ -284,6 +335,7 @@ const armcars = [
 },
   {
   tankName: "German half track",
+  tankId: "nfqygvhhl",
   tankBody: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Aliquet nec ullamcorper sit amet risus nullam eget. Mi tempus imperdiet nulla malesuada pellentesque elit. Nisl nunc mi ipsum faucibus vitae aliquet nec ullamcorper. Ipsum dolor sit amet consectetur adipiscing. Scelerisque viverra mauris in aliquam sem fringilla ut morbi. Morbi tristique senectus et netus et malesuada. Cursus in hac habitasse platea dictumst quisque. Volutpat consequat mauris nunc congue. Senectus et netus et malesuada. Lacus luctus accumsan tortor posuere ac ut. Lacus sed viverra tellus in hac habitasse. Quis auctor elit sed vulputate mi sit amet. Magna ac placerat vestibulum lectus mauris ultrices. Ridiculus mus mauris vitae ultricies leo integer. Rhoncus aenean vel elit scelerisque mauris pellentesque pulvinar pellentesque habitant. Nec feugiat in fermentum posuere urna nec tincidunt. Volutpat sed cras ornare arcu.",
   tankName2: "Very roomey",
   tankBody2: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Sit amet luctus venenatis lectus magna fringilla urna porttitor rhoncus. Sed velit dignissim sodales ut eu sem integer vitae justo. Aliquam etiam erat velit scelerisque in dictum non consectetur. Congue quisque egestas diam in arcu cursus euismod quis viverra. Felis eget velit aliquet sagittis id consectetur. Ac turpis egestas sed tempus urna. Diam sit amet nisl suscipit adipiscing bibendum. Nec tincidunt praesent semper feugiat. Et malesuada fames ac turpis. Tempus egestas sed sed risus pretium quam. Nec tincidunt praesent semper feugiat. Aliquam eleifend mi in nulla posuere sollicitudin aliquam ultrices sagittis. A cras semper auctor neque. Sit amet est placerat in egestas. Fermentum leo vel orci porta. Elementum curabitur vitae nunc sed velit dignissim sodales ut eu.",
@@ -301,6 +353,7 @@ const armcars = [
   },
   {
   tankName: "R3 Fiat",
+  tankId: "w61cb_-rv",
   tankBody: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Adipiscing diam donec adipiscing tristique. Fermentum et sollicitudin ac orci phasellus. Amet luctus venenatis lectus magna. Lacinia at quis risus sed vulputate. Placerat in egestas erat imperdiet sed. Urna duis convallis convallis tellus id interdum velit laoreet. Sed nisi lacus sed viverra tellus in hac habitasse platea. Odio euismod lacinia at quis risus sed vulputate odio. Viverra justo nec ultrices dui sapien eget. Id interdum velit laoreet id donec. Congue quisque egestas diam in arcu cursus euismod quis viverra. Aliquam id diam maecenas ultricies mi eget mauris. At in tellus integer feugiat scelerisque varius. Vitae proin sagittis nisl rhoncus. Vitae justo eget magna fermentum iaculis. Pellentesque habitant morbi tristique senectus et.",
   tankName2: "What a speedy boi",
   tankName3: "Fast as Fuck",
@@ -319,18 +372,21 @@ const armcars = [
   }
 ];
 
-weaponsdealers.use(bodyParser.urlencoded({
+
+
+app.use(bodyParser.urlencoded({
   extended: true
 }));
 
-weaponsdealers.use("/public", express.static("public"));
+app.use("/public", express.static("public"));
 
 
-weaponsdealers.get("/", function(req, res) {
+
+app.get("/", function(req, res) {
   res.render("index");
 });
 
-weaponsdealers.get("/tanks", function(req, res) {
+app.get("/tanks", function(req, res) {
   res.render("tanks", {
     tanks: tanks,
     pageTitle: tankPageTitle,
@@ -338,17 +394,15 @@ weaponsdealers.get("/tanks", function(req, res) {
   });
 });
 
-
-weaponsdealers.get("/pricing", function(req, res) {
+app.get("/pricing", function(req, res) {
   res.render("signup");
 });
 
-
-weaponsdealers.get("/signin", function(req, res) {
+app.get("/signin", function(req, res) {
   res.render("signin");
 });
 
-weaponsdealers.get("/ifv", function(req, res) {
+app.get("/ifv", function(req, res) {
   res.render("tanks", {
     tanks: ifvs,
     pageTitle: ifvPageTitle,
@@ -356,7 +410,7 @@ weaponsdealers.get("/ifv", function(req, res) {
   });
 });
 
-weaponsdealers.get("/armouredcars", function(req, res) {
+app.get("/armouredcars", function(req, res) {
   res.render("tanks", {
     tanks: armcars,
     pageTitle: armcarPageTitle,
@@ -364,23 +418,10 @@ weaponsdealers.get("/armouredcars", function(req, res) {
   });
 });
 
-
-weaponsdealers.post("/signin", function(req, res) {
-  var one = req.body.first;
-  var two = req.body.second;
-  res.render("reked", {
-    rickSult: one,
-    ronSult: two
-  });
-});
-
-weaponsdealers.get("/tanks/:tankName", function(req, res) {
-  const requestedTitle = _.lowerCase(req.params.tankName);
+app.get("/tanks/:tankId", function(req, res) {
+  const requestedTitle = req.params.tankId;
   tanks.forEach(function(tank) {
-    const storedTitle = _.lowerCase(tank.tankName);
-    const tankBody = tank.tankBody;
-    const tankSRC = tank.tankSRC1;
-    const tankPrice = tank.tankPrice
+    const storedTitle = tank.tankId;
     if (storedTitle === requestedTitle) {
       res.render("user-page", {
         tank: tank,
@@ -389,13 +430,10 @@ weaponsdealers.get("/tanks/:tankName", function(req, res) {
   });
 });
 
-weaponsdealers.get("/ifvs/:ifvName", function(req, res) {
-  const requestedTitle = _.lowerCase(req.params.ifvName);
+app.get("/ifvs/:ifvId", function(req, res) {
+  const requestedTitle = req.params.ifvId;
   ifvs.forEach(function(ifv) {
-    const storedTitle = _.lowerCase(ifv.tankName);
-    const ifvBody = ifv.tankBody;
-    const ifvSRC = ifv.tankSRC;
-    const ifvPrice = ifv.tankPrice
+    const storedTitle = ifv.tankId;
     if (storedTitle === requestedTitle) {
       res.render("user-page", {
         tank: ifv,
@@ -404,13 +442,10 @@ weaponsdealers.get("/ifvs/:ifvName", function(req, res) {
   });
 });
 
-weaponsdealers.get("/armouredcars/:armcarName", function(req, res) {
-  const requestedTitle = _.lowerCase(req.params.armcarName);
+app.get("/armouredcars/:armcarId", function(req, res) {
+  const requestedTitle = req.params.armcarId;
   armcars.forEach(function(armcar) {
-    const storedTitle = _.lowerCase(armcar.tankName);
-    const armcarBody = armcar.tankBody;
-    const armcarSRC = armcar.tankSRC;
-    const armcarPrice = armcar.tankPrice
+    const storedTitle = armcar.tankId;
     if (storedTitle === requestedTitle) {
       res.render("user-page", {
         tank: armcar,
@@ -419,11 +454,46 @@ weaponsdealers.get("/armouredcars/:armcarName", function(req, res) {
   });
 });
 
-weaponsdealers.get("/compose", function(req, res) {
+app.get("/compose", function(req, res) {
   res.render("compose");
 });
 
-weaponsdealers.post("/compose", function(req, res) {
+app.get("/peasant", function(req, res) {
+  res.render("create-form", {
+    createTitle: peasantSignup,
+  });
+});
+
+app.get("/premium", function(req, res) {
+  res.render("create-form", {
+    createTitle: premiumSignup,
+  });
+});
+
+app.get("/millitia", function(req, res) {
+  res.render("create-form", {
+    createTitle: millitiaSignup,
+  });
+});
+
+
+
+app.post("/signin", function(req, res) {
+  var one = req.body.first;
+  var two = req.body.second;
+users.forEach(function(user) {
+  if(one === user.userEmail && two === user.userPassword) {
+    res.render("signedindex", {
+      epicName: user.userName,
+      epicEmail: user.userEmail,
+    });
+  } else {
+    console.log("Failed Null")
+  }
+});
+});
+
+app.post("/compose", function(req, res) {
   const title = req.body.title;
   const body = req.body.body;
 
@@ -446,6 +516,8 @@ weaponsdealers.post("/compose", function(req, res) {
   const oik = req.body.ifvs;
   const boils = req.body.armcars;
 
+  const tankId = shortid.generate().toLowerCase();
+
   tank = {
     tankName: title,
     tankBody: body,
@@ -456,6 +528,8 @@ weaponsdealers.post("/compose", function(req, res) {
     tankName3: title3,
     tankBody3: body3,
     tankPrice: price,
+
+    tankId: tankId,
 
     images: {
       tankSRC1: file,
@@ -480,28 +554,13 @@ weaponsdealers.post("/compose", function(req, res) {
     res.send("Well fuck, error code, c0d21ce7bed8fec07491b082ef6b12b80a701528. Try changing the version to the one prior.")
   }
 });
-weaponsdealers.get("/peasant", function(req, res) {
-  res.render("create-form", {
-    createTitle: peasantSignup,
-  });
-});
-weaponsdealers.get("/premium", function(req, res) {
-  res.render("create-form", {
-    createTitle: premiumSignup,
-  });
-});
-weaponsdealers.get("/millitia", function(req, res) {
-  res.render("create-form", {
-    createTitle: millitiaSignup,
-  });
-});
-weaponsdealers.get("/about", function(req, res) {
-  res.render("about");
-});
-weaponsdealers.use(function(req, res, next) {
+
+
+
+app.use(function(req, res, next) {
   res.status(404).render("failure");
 });
 
-weaponsdealers.listen(process.env.PORT || 3000, function() {
+app.listen(process.env.PORT || 3000, function() {
   console.log("Server started at port 3000.");
 });
