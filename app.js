@@ -278,6 +278,7 @@ app.get("/pricing", function(req, res) {
 app.use(function(req, res, next) {
   res.status(404).render("failure");
 });
+
 app.listen(process.env.PORT || 3000, function() {
   console.log("Server started at port 3000.");
 });

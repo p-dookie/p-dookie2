@@ -9,11 +9,9 @@
   <div class="card custurd col-lg-4">
     <h2 class="tank-title"> <%= tank.tankName.substring(0, 20) %></h2>
     <img class="tank-img" src="<%= tank.images.tankSRC1 %>" alt="tank-img, posted by user">
-
     <p class="title"><%= tank.tankBody.substring(0, 350) %> ...</p>
     <br>
     <div class="fink">
-
       <h6 class = "title"><strong>Price:</strong> <%= tank.tankPrice %> </h6>
       <br>
       <a class = "title"href="<%= getURL %><%= tank._id %>">Learn More</a>
