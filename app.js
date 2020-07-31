@@ -1,19 +1,52 @@
+//jshint esversion:6
+require('dotenv').config();
 const express = require("express");
-
-const mongoose = require('mongoose')
-
-const bodyParser = require("body-parser")
-
-const shortid = require("shortid")
-
-const _ = require("lodash")
+const bodyParser = require("body-parser");
+const ejs = require("ejs");
+const mongoose = require("mongoose");
+const session = require('express-session');
+const passport = require("passport");
+const passportLocalMongoose = require("passport-local-mongoose");
 
 const app = express();
 
+app.use(express.static("public"));
 app.set('view engine', 'ejs');
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 
-mongoose.connect("mongodb://localhost:27017/p-dookieDB", {
-  useNewUrlParser: true
+app.use(session({
+  secret: "Our little secret.",
+  resave: false,
+  saveUninitialized: false
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+mongoose.connect("mongodb://localhost:27017/p-dookieDB", {useNewUrlParser: true});
+mongoose.set("useCreateIndex", true);
+
+const userSchema = new mongoose.Schema ({
+  email: String,
+  password: String
+});
+
+userSchema.plugin(passportLocalMongoose);
+
+const User = new mongoose.model("User", userSchema);
+
+passport.use(User.createStrategy());
+
+passport.serializeUser(function(user, done) {
+  done(null, user._id);
+});
+
+passport.deserializeUser(function(id, done) {
+  User.findById(id, function(err, user) {
+    done(err, user);
+  });
 });
 
 const tankSchema = new mongoose.Schema({
@@ -24,20 +57,25 @@ const tankSchema = new mongoose.Schema({
   tankBody2: String,
   tankBody3: String,
   tankPrice: String,
-  images: {
-    tankSRC1: String,
-    tankSRC2: String,
-    tankSRC3: String,
-    tankSRC4: String,
-    tankSRC5: String,
-    tankSRC6: String,
-  }
+  images: [
+    String,
+    String,
+    String,
+    String,
+    String,
+    String,
+    String,
+    String,
+    String,
+    String,
+  ]
 });
 
 
 const Tank = mongoose.model("Tank", tankSchema);
 const Ifv = mongoose.model("Ifv", tankSchema);
 const Armcar = mongoose.model("Armcar", tankSchema);
+
 
 const tankPageTitle = "tanks!";
 const ifvPageTitle = "IFVs!";
@@ -51,24 +89,18 @@ const peasantSignup = "pes";
 const premiumSignup = "pre";
 const millitiaSignup = "mil";
 
-app.use(bodyParser.urlencoded({
-  extended: true
-}));
-
-app.use("/public", express.static("public"));
-
 app.get("/", function(req, res) {
   res.render("index");
 });
 
 app.get("/tanks", function(req, res) {
-Tank.find({}, function(err, foundItems) {
-  res.render("tanks", {
-    tanks: foundItems,
-    pageTitle: tankPageTitle,
-    getURL: getTank
-  });
-});
+    Tank.find({}, function(err, foundItems) {
+      res.render("tanks", {
+        tanks: foundItems,
+        pageTitle: tankPageTitle,
+        getURL: getTank
+      });
+    });
 });
 
 app.get("/ifv", function(req, res) {
@@ -143,104 +175,57 @@ app.get("/armouredcars/:armcarId", function(req, res) {
 });
 
 app.get("/compose", function(req, res) {
+if(req.isAuthenticated()) {
   res.render("compose");
+} else {
+  res.redirect("/signin")
+}
 });
 
 app.post("/compose", function(req, res) {
-  const title = req.body.title;
-  const body = req.body.body;
+  if(req.isAuthenticated()) {
+    const it = {
+      tankName: req.body.title,
+      tankBody: req.body.body,
 
-  const title2 = req.body.secondTitle
-  const body2 = req.body.secondBody;
+      tankName2: req.body.secondTitle,
+      tankBody2: req.body.secondBody,
 
-  const title3 = req.body.thirdTitle;
-  const body3 = req.body.thirdBody;
-
-  const file = req.body.tanksource;
-  const file2 = req.body.secondTanksource;
-  const file3 = req.body.thirdTanksource;
-  const file4 = req.body.fourthTanksource;
-  const file5 = req.body.fifthTanksource;
-  const file6 = req.body.sithTanksource;
-
-  const price = req.body.price;
-
-  const oruk = req.body.tanks;
-  const oik = req.body.ifvs;
-  const boils = req.body.armcars;
-
-  tank = new Tank({
-    tankName: title,
-    tankBody: body,
-
-    tankName2: title2,
-    tankBody2: body2,
-
-    tankName3: title3,
-    tankBody3: body3,
-    tankPrice: price,
-    images: {
-      tankSRC1: file,
-      tankSRC2: file2,
-      tankSRC3: file3,
-      tankSRC4: file4,
-      tankSRC5: file5,
-      tankSRC6: file6,
+      tankName3: req.body.thirdTitle,
+      tankBody3: req.body.thirdBody,
+      tankPrice: req.body.price,
+      images: [
+        req.body.tanksource,
+        req.body.secondTanksource,
+        req.body.thirdTanksource,
+        req.body.fourthTanksource,
+        req.body.fifthTanksource,
+        req.body.sithTanksource,
+      ]
     }
-  });
-  ifv = new Ifv({
-    tankName: title,
-    tankBody: body,
 
-    tankName2: title2,
-    tankBody2: body2,
+    tank = new Tank(it);
+    ifv = new Ifv(it);
+    armcar = new Armcar(it);
 
-    tankName3: title3,
-    tankBody3: body3,
-    tankPrice: price,
-    images: {
-      tankSRC1: file,
-      tankSRC2: file2,
-      tankSRC3: file3,
-      tankSRC4: file4,
-      tankSRC5: file5,
-      tankSRC6: file6,
+    if (req.body.tanks === "on") {
+      tank.save();
+      res.redirect("/tanks");
+      res.redirect("/tanks");
+    } else if (req.body.ifvs === "on") {
+      ifv.save();
+      res.redirect("/ifv");
+      res.redirect("/ifv");
+    } else if (req.body.armcars === "on") {
+      armcar.save();
+      res.redirect("/armouredcars");
+      res.redirect("/armouredcars");
+
+    } else {
+      res.send("Well fuck, error code, c0d21ce7bed8fec07491b082ef6b12b80a701528. Try changing the version to the one prior.")
     }
-  });
-  armcar = new Armcar({
-    tankName: title,
-    tankBody: body,
-
-    tankName2: title2,
-    tankBody2: body2,
-
-    tankName3: title3,
-    tankBody3: body3,
-    tankPrice: price,
-    images: {
-      tankSRC1: file,
-      tankSRC2: file2,
-      tankSRC3: file3,
-      tankSRC4: file4,
-      tankSRC5: file5,
-      tankSRC6: file6,
-    }
-  });
-  if (oruk === "on") {
-    tank.save();
-    res.redirect("/tanks");
-    res.redirect("/tanks");
-  } else if (oik === "on") {
-    ifv.save();
-    res.redirect("/ifv");
-    res.redirect("/ifv");
-  } else if (boils === "on") {
-    armcar.save();
-    res.redirect("/armouredcars");
-    res.redirect("/armouredcars");
-
   } else {
-    res.send("Well fuck, error code, c0d21ce7bed8fec07491b082ef6b12b80a701528. Try changing the version to the one prior.")
+    res.send("Not Authenticated")
   }
 });
 
@@ -249,8 +234,40 @@ app.get("/signin", function(req, res) {
 });
 
 app.post("/signin", function(req, res) {
-  var one = req.body.first;
-  var two = req.body.second;
+  const user = new User({
+    username: req.body.username,
+    password: req.body.password
+  });
+
+  req.login(user, function(err){
+    if (err) {
+      console.log(err)
+    } else {
+      passport.authenticate("local")(req, res, function(){
+        res.redirect('/');
+      });
+    }
+  });
+});
+
+app.get("/register", (req, res) => {
+  res.render("register")
+});
+app.post("/register", (req, res) => {
+  User.register({username: req.body.username }, req.body.password, (err, user) => {
+    if(err) {
+      res.send("fuckieWuckie, "  + err);
+    } else {
+      passport.authenticate("local")(req, res, function(){
+        res.redirect("/")
+      });
+    }
+  });
+});
+
+app.get("/logout", (req, res) => {
+  req.logout();
+  res.redirect("/");
 });
 
 app.get("/pricing", function(req, res) {

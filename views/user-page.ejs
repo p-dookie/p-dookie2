@@ -4,15 +4,13 @@
 
 
   <div class="main-img">
-    <img class="main-itself" src="<%= tank.images.tankSRC1 %>" alt="Fuc">
+    <img class="main-itself" src="<%= tank.images[0] %>" alt="Fuc">
   </div>
   <div class="sm-imgs">
-    <img class="current small-img " src="<%= tank.images.tankSRC1 %>" alt="">
-    <img class="small-img"  src="<%= tank.images.tankSRC2 %>" alt="">
-    <img class="small-img" src="<%= tank.images.tankSRC3 %>" alt="">
-    <img class="small-img" src="<%= tank.images.tankSRC4 %>" alt="">
-    <img class="small-img" src="<%= tank.images.tankSRC5 %>" alt="Fuck">
-    <img class="small-img" src="<%= tank.images.tankSRC6 %>" alt="Fuck">
+    <img class="small-img " src="<%= tank.images[0] %>">
+    <% for(let i = 1; i > tank.images.length; i++) { %>
+      <img class="small-img" src="<%= tank.images[i] %>">
+    <% } %>
   </div>
   <div class="main-text text">
     <h1 class= "user-title"><%= tank.tankName %></h1>
@@ -40,7 +38,7 @@
 <br>
 <div class="peem">
 <video class = "spleen" controls>
-<source src="../public/videos/peem.mp4" type="video/mp4">
+<source src="/videos/peem.mp4" type="video/mp4">
 </video>
 
 </div>
