@@ -1,0 +1,13 @@
+<%- include("partials/header") -%>
+<section id="profile-page">
+<div class="profile-div">
+<img src="/uploads/<%= user.profile %>" class = "profile-picture">
+</div>
+<h1 class = "text-center">Welcome back <%= user.displayName %>, <br />What can we do for you today?</h1>
+<div class="button-section">
+  <a class = "btn btn-primary btn-block" href="/compose">Post</a>
+  <a class = "btn btn-primary btn-block" href="/posts">See all my posts</a>
+  <a class = "btn btn-danger btn-block" href="/logout">logout</a>
+</div>
+</section>
+<%- include("partials/footer") -%>

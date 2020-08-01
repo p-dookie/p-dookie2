@@ -1,16 +1,13 @@
 <%- include("partials/header") -%>
-
-
-
-
   <div class="main-img">
     <img class="main-itself" src="<%= tank.images[0] %>" alt="Fuc">
   </div>
   <div class="sm-imgs">
-    <img class="small-img " src="<%= tank.images[0] %>">
-    <% for(let i = 1; i > tank.images.length; i++) { %>
-      <img class="small-img" src="<%= tank.images[i] %>">
-    <% } %>
+    <img class="current small-img " src="<%= tank.images[0] %>" alt="">
+<% for(let i = 1; i < tank.images.length; i++) { %>
+  <img class="small-img " src="<%= tank.images[i] %>" alt="">
+<% } %>
+
   </div>
   <div class="main-text text">
     <h1 class= "user-title"><%= tank.tankName %></h1>
@@ -25,22 +22,8 @@
   </div>
 
   <div class="button-dropdown">
-    <p class="button-itself btn btn-primary btn-lg">⇩ Make an offer  ⇩</p>
+    <a href = "<%= tank.locale %><%= tank._id %>/makeoffer" class="button-itself btn btn-primary btn-lg">Make an offer</a>
   </div>
 
-<section id = "bottom">
 
-  <div  class = "contact-form text main-text">
-  <h6><strong>Minimum Offer:</strong> <%= tank.tankPrice %> </h6>
-  <h6><strong>Current Offer:</strong> $273, 052</h6><br>
-<p class = "title">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Diam maecenas sed enim ut sem. Ultrices mi tempus imperdiet nulla malesuada pellentesque elit eget. Pretium fusce id velit ut tortor pretium. Tincidunt arcu non sodales neque sodales ut. Risus nullam eget felis eget nunc. Mi eget mauris pharetra et ultrices neque ornare aenean. Nunc scelerisque viverra mauris in aliquam sem. Adipiscing enim eu turpis egestas pretium aenean pharetra magna. Scelerisque eu ultrices vitae auctor eu augue ut lectus arcu. Tellus pellentesque eu tincidunt tortor. Mollis nunc sed id semper risus. Suspendisse potenti nullam ac tortor.</p>
-
-<br>
-<div class="peem">
-<video class = "spleen" controls>
-<source src="/videos/peem.mp4" type="video/mp4">
-</video>
-
-</div>
-</section>
 <%- include("partials/footer") -%>

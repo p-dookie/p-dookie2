@@ -2,6 +2,14 @@ h3, h4 {
   font-family: 'Bebas Neue', cursive
 }
 
+.center-izer{
+  width: 100%;
+  max-width: 330px;
+  padding: 15px;
+  margin: 10% auto;
+  text-align: center;
+}
+
 .head-about {
   display: inline-block;
   text-align: left;
@@ -443,6 +451,17 @@ video {
   height: 556px;
 }
 
+.profile-picture {
+  border-radius: 100%;
+  width: 30%;
+  max-height: 330px;
+}
+
+.profile-div {
+  text-align: center;
+  margin: 25px;
+}
+
 @media (max-width:800px) {
   .logo {
     width: 100%;
@@ -466,4 +485,11 @@ video {
 
 .gagle {
   margin: 10%;
+}
+#profile-page{
+  padding: 7% 15%;
+}
+
+.button-section {
+  margin: 40px;
 }
