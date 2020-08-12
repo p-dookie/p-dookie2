@@ -1,12 +1,12 @@
 <%- include("partials/header") -%>
-<link rel="stylesheet" href="/css/styles1.css">
-<body class="text-center">
-  <form method = "POST" action = "/signin" class="form-signin">
-<img class="mb-4 muselee" src="/images/colm_logo.png" alt="" width="72" height="72">
-<h3 class="penisMusic">Sign in (beta)</h3>
-<input type="email"  name = "username" class="form-control gobad" placeholder="Email" required autofocus>
-<input type="password" name = "password" class="form-control gobad" placeholder="Password" required>
-<button class="preen btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
-</form>
 
-<%- include("partials/footer") -%>
+  <section class="formsec">
+    <form method="POST" action="/signin" class="form-signin text-center">
+      <img class="mb-4 muselee" src="/images/colm_logo.png" alt="" width="72" height="72">
+      <h3 class="derlan">Please sign in</h3>
+      <input type="email" name="username" class="form-control sumber" placeholder="Email" required autofocus>
+      <input type="password" name="password" class="form-control sumber" placeholder="Password" required>
+      <button class="derlan btn btn-lg btn-primary btn-block" type="submit">Sign In</button>
+    </form>
+  </section>
+  <%- include("partials/footer") -%>

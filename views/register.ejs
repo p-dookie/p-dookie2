@@ -1,13 +1,16 @@
 <%- include("partials/header") -%>
-<div class="center-izer">
-  <form action="/register" method="post" enctype= "multipart/form-data">
-    <%= typeof msg != 'undefined' ? msg : '' %>
-    <input type="file" name="myImage">
-    <label>Enter the following information</label><br /><br />
-    <input type="text" name="displayName" placeholder="Username"><br><br>
-    <input type="email" name="username" placeholder="Email"><br /><br />
-    <input type="password" name="password" placeholder="Password"><br /><br />
-    <button type="submit" name="button" class= "btn btn-primary">Submit</button>
+<section class = "formsec">
+  <form action="/register" method="post" class= "form-signin text-center" enctype= "multipart/form-data">
+
+    <label class = "derlan">Enter the following information</label>
+    <br /><br />
+    <p class ="title"><%= typeof msg != 'undefined' ? msg : '' %></p>
+    <input class = "form-control sumber btn" id= "file" type="file" name="myImage">
+<br><br>
+    <input type="text" name="displayName" class= "form-control sumber" placeholder="Username">
+    <input type="email" name="username" class= "form-control sumber" placeholder="Email">
+    <input type="password" name="password" class= "form-control sumber" placeholder="Password">
+    <button type="submit" name="button" class= "btn btn-primary derlan">Submit</button>
   </form>
-</div>
+</section>
 <%- include("partials/footer") -%>

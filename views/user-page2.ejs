@@ -2,9 +2,9 @@
 <center>
   <h3>Posted by: <%= tank.user %></h3>
 <h6><strong>Minimum Offer:</strong> <%= tank.tankPrice %> </h6>
-<h6><strong>Current Offer:</strong> <%= tank.offer.offer %></h6><br>
+<h6><strong>Current Offer:</strong> $<%= tank.offer.offer %>. USD</h6><br>
 <form action="<%= tank.locale %><%= tank._id %>" method="post">
-<input type="text" name="amount" placeholder="$0. USD"><br />
+$<input type="number" required name="amount" placeholder="0">. USD<br />
 <button type="submit" class = "btn btn-primary" name="button">Submit</button>
 </form>
   </center>

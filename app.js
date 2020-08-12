@@ -13,28 +13,30 @@ const passportLocalMongoose = require("passport-local-mongoose");
 const storage = multer.diskStorage({
   destination: './public/uploads/',
   fileName: function(req, file, cb) {
-    cb(null, fieldname+'-'+Date.now() +
-    path.extname(file.originalname));
+    cb(null, fieldname + '-' + Date.now() +
+      path.extname(file.originalname));
   }
 });
 
 //init upload
 const upload = multer({
   storage: storage,
-  limits: {fileSize: 1000000},
-  fileFilter: function(req, file, cb ) {
+  limits: {
+    fileSize: 1000000
+  },
+  fileFilter: function(req, file, cb) {
     checkFileType(file, cb);
   }
 }).single('myImage');
 
 //check file type
-function checkFileType(file, cb){
+function checkFileType(file, cb) {
   const filetypes = /jpeg|jpg|png|gif/;
   const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
   const mimetype = filetypes.test(file.mimetype);
-  if(mimetype && extname) {
+  if (mimetype && extname) {
     return cb(null, true);
-  } else{
+  } else {
     cb("Error: Images Only")
   }
 }
@@ -58,14 +60,17 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-mongoose.connect("mongodb://localhost:27017/p-dookieDB", { useNewUrlParser: true });
+mongoose.connect("mongodb://localhost:27017/p-dookieDB", {
+  useNewUrlParser: true
+});
 mongoose.set("useCreateIndex", true);
 
-const userSchema = new mongoose.Schema ({
+const userSchema = new mongoose.Schema({
   email: String,
   password: String,
   displayName: String,
   profile: String,
+  bio: String
 });
 
 
@@ -136,74 +141,95 @@ const millitiaSignup = "mil";
 
 //home
 app.get("/", function(req, res) {
-  if(req.isAuthenticated()) {
+  if (req.isAuthenticated()) {
     res.render("profile", {
-      user: req.user
+      user: req.user,
+      title: "p-dookie.ca | " + req.user.displayName,
     });
   } else {
-    res.render("index");
+    res.render("index", {
+      title: "p-dookie.ca | Home"
+    });
   }
 });
 
 
 //All hardcoded pages
 app.get("/tanks", function(req, res) {
-    Listing.find({type: "tank"}, function(err, foundItems) {
-      res.render("tanks", {
-        tanks: foundItems,
-        pageTitle: "Browse our wide selection of tanks",
-      });
+  Listing.find({
+    type: "tank"
+  }, function(err, foundItems) {
+    res.render("tanks", {
+      tanks: foundItems,
+      pageTitle: "Browse our wide selection of tanks",
+      title: "p-dookie.ca | Tanks"
     });
+  });
 });
 
 app.get("/ifv", function(req, res) {
-Listing.find({type: "ifv"}, function(err, foundItems){
-  res.render("tanks", {
-    tanks: foundItems,
-    pageTitle: "Browse our wide selection of IFV's",
-
+  Listing.find({
+    type: "ifv"
+  }, function(err, foundItems) {
+    res.render("tanks", {
+      tanks: foundItems,
+      pageTitle: "Browse our wide selection of IFV's",
+      title: "p-dookie.ca | IFV's"
+    });
   });
-});
 });
 
 app.get("/armouredcars", function(req, res) {
-Listing.find({type: "armcar"}, function(err, foundItems){
-  res.render("tanks", {
-    tanks: foundItems,
-    pageTitle: "Browse our wide selection of Armoured Cars",
+  Listing.find({
+    type: "armcar"
+  }, function(err, foundItems) {
+    res.render("tanks", {
+      tanks: foundItems,
+      pageTitle: "Browse our wide selection of Armoured Cars",
+      title: "p-dookie.ca | Armoured Cars"
+    });
   });
-});
 });
 
 
 //individual pages
-app.get("/tanks/:tankId", function(req, res){
+app.get("/tanks/:tankId", function(req, res) {
   const requestedTitle = req.params.tankId;
-  Listing.findOne({_id: requestedTitle}, function(err, foundItem) {
-    if(err) {
+  Listing.findOne({
+    _id: requestedTitle
+  }, function(err, foundItem) {
+    if (err) {
       console.log(err)
     } else {
-      if(!foundItem) {
-        res.render("failure");
+      if (!foundItem) {
+        res.render("failure", {
+          title: "p-dookie.ca | 404"
+        });
       } else {
         res.render("user-page", {
           tank: foundItem,
-      });
+          title: "p-dookie.ca | "+foundItem.tankName
+        });
       }
     }
   });
 });
 
 app.get("/ifvs/:ifvId", function(req, res) {
-  Listing.findOne({_id: req.params.ifvId}, function(err, foundItem) {
-    if(err) {
+  Listing.findOne({
+    _id: req.params.ifvId
+  }, function(err, foundItem) {
+    if (err) {
       console.log(err)
     } else {
-      if(!foundItem) {
-        res.render("failure");
+      if (!foundItem) {
+        res.render("failure", {
+          title: "p-dookie.ca | 404"
+        });
       } else {
         res.render("user-page", {
           tank: foundItem,
+          title: "p-dookie.ca | "+foundItem.tankName
         });
       }
     }
@@ -212,15 +238,20 @@ app.get("/ifvs/:ifvId", function(req, res) {
 
 app.get("/armouredcars/:armcarId", function(req, res) {
   const requestedTitle = req.params.armcarId;
-  Listing.findOne({_id: requestedTitle}, function(err, foundItem) {
-    if(err) {
+  Listing.findOne({
+    _id: requestedTitle
+  }, function(err, foundItem) {
+    if (err) {
       console.log(err)
     } else {
-      if(!foundItem) {
-        res.render("failure");
+      if (!foundItem) {
+        res.render("failure", {
+          title: "p-dookie.ca | 404"
+        });
       } else {
         res.render("user-page", {
           tank: foundItem,
+          title: "p-dookie.ca | "+foundItem.tankName
         });
       }
     }
@@ -230,16 +261,19 @@ app.get("/armouredcars/:armcarId", function(req, res) {
 
 //Make offers
 app.get("/tanks/:tankId/makeoffer", (req, res) => {
-  Listing.findOne({_id: req.params.tankId}, (err, foundItem) => {
-    if(err) {
+  Listing.findOne({
+    _id: req.params.tankId
+  }, (err, foundItem) => {
+    if (err) {
       console.log(err)
     } else {
-      if(!foundItem) {
+      if (!foundItem) {
         res.send("The listing you are looking for cannot be found")
       } else {
-        if(req.isAuthenticated()) {
+        if (req.isAuthenticated()) {
           res.render("user-page2", {
-            tank: foundItem
+            tank: foundItem,
+            title: "Make an offer on "+foundItem.tankName
           });
         } else {
           res.redirect("/signin");
@@ -250,16 +284,19 @@ app.get("/tanks/:tankId/makeoffer", (req, res) => {
 });
 
 app.get("/ifvs/:ifvId/makeoffer", (req, res) => {
-  Listing.findOne({_id: req.params.ifvId}, (err, foundItem) => {
-    if(err) {
+  Listing.findOne({
+    _id: req.params.ifvId
+  }, (err, foundItem) => {
+    if (err) {
       console.log(err)
     } else {
-      if(!foundItem) {
+      if (!foundItem) {
         res.send("The listing you are looking for cannot be found")
       } else {
-        if(req.isAuthenticated()) {
+        if (req.isAuthenticated()) {
           res.render("user-page2", {
-            tank: foundItem
+            tank: foundItem,
+            title: "Make an offer on "+foundItem.tankName
           });
         } else {
           res.redirect("/signin");
@@ -270,16 +307,19 @@ app.get("/ifvs/:ifvId/makeoffer", (req, res) => {
 });
 
 app.get("/armouredcars/:armcarId/makeoffer", (req, res) => {
-  Listing.findOne({_id: req.params.armcarId}, (err, foundItem) => {
-    if(err) {
+  Listing.findOne({
+    _id: req.params.armcarId
+  }, (err, foundItem) => {
+    if (err) {
       console.log(err)
     } else {
-      if(!foundItem) {
+      if (!foundItem) {
         res.send("The listing you are looking for cannot be found");
       } else {
-        if(req.isAuthenticated()) {
+        if (req.isAuthenticated()) {
           res.render("user-page2", {
-            tank: foundItem
+            tank: foundItem,
+            title: "Make an offer on "+foundItem.tankName
           });
         } else {
           res.redirect("/signin");
@@ -292,90 +332,103 @@ app.get("/armouredcars/:armcarId/makeoffer", (req, res) => {
 
 //Post offers
 app.post("/tanks/:tankId", (req, res) => {
-    Listing.findOne({_id: req.params.tankId}, (err, foundItem) => {
-        if(err) {
-          console.log(err);
-        } else {
-          if(!foundItem) {
-            res.send("Sorry, an error occured, try again");
+  Listing.findOne({
+    _id: req.params.tankId
+  }, (err, foundItem) => {
+    if (err) {
+      console.log(err);
+    } else {
+      if (!foundItem) {
+        res.send("Sorry, an error occured, try again");
+      } else {
+        if (req.isAuthenticated()) {
+          //send this data to the user who posted the listing
+          if (req.body.amount > foundItem.offer.offer) {
+            foundItem.offer = {
+              offer: req.body.amount,
+              user: req.user.displayName,
+              userEmail: req.user.username
+            };
+            foundItem.save();
+            res.send('Offer has been confirmed');
           } else {
-            if(req.isAuthenticated()) {
-              foundItem.offer = {
-                offer: req.body.amount,
-                user: req.user.displayName,
-                userEmail: req.user.username
-              };
-              //send this data to the user who posted the listing
-              foundItem.save();
-              res.send('Offer has been confirmed')
-            } else {
-              res.send("Not Authenticated");
-            }
+            res.send('Offer has been confirmed');
           }
+        } else {
+          res.send("Not Authenticated");
         }
-    });
+      }
+    }
+  });
 });
 
 app.post("/armouredcars/:armcarId", (req, res) => {
-    Listing.findOne({_id: req.params.armcarId}, (err, foundItem) => {
-        if(err) {
-          console.log(err);
+  Listing.findOne({
+    _id: req.params.armcarId
+  }, (err, foundItem) => {
+    if (err) {
+      console.log(err);
+    } else {
+      if (!foundItem) {
+        res.send("Sorry, an error occured, try again");
+      } else {
+        if (req.isAuthenticated()) {
+          foundItem.offer = {
+            offer: req.body.amount,
+            user: req.user.displayName,
+            userEmail: req.user.username
+          };
+          //send this data to the user who posted the listing
+          foundItem.save();
+          res.send('Offer has been confirmed')
         } else {
-          if(!foundItem) {
-            res.send("Sorry, an error occured, try again");
-          } else {
-            if(req.isAuthenticated()) {
-              foundItem.offer = {
-                offer: req.body.amount,
-                user: req.user.displayName,
-                userEmail: req.user.username
-              };
-              //send this data to the user who posted the listing
-              foundItem.save();
-              res.send('Offer has been confirmed')
-            } else {
-              res.send("Not Authenticated");
-            }
-          }
+          res.send("Not Authenticated");
         }
-    });
+      }
+    }
+  });
 });
 
 app.post("/ifvs/:ifvId", (req, res) => {
-    Listing.findOne({_id: req.params.ifvId}, (err, foundItem) => {
-        if(err) {
-          console.log(err);
+  Listing.findOne({
+    _id: req.params.ifvId
+  }, (err, foundItem) => {
+    if (err) {
+      console.log(err);
+    } else {
+      if (!foundItem) {
+        res.send("Sorry, an error occured, try again");
+      } else {
+        if (req.isAuthenticated()) {
+          foundItem.offer = {
+            offer: req.body.amount,
+            user: req.user.displayName,
+            userEmail: req.user.username
+          };
+          //send this data to the user who posted the listing
+          foundItem.save();
+          res.send('Offer has been confirmed')
         } else {
-          if(!foundItem) {
-            res.send("Sorry, an error occured, try again");
-          } else {
-            if(req.isAuthenticated()) {
-              foundItem.offer = {
-                offer: req.body.amount,
-                user: req.user.displayName,
-                userEmail: req.user.username
-              };
-              //send this data to the user who posted the listing
-              foundItem.save();
-              res.send('Offer has been confirmed')
-            } else {
-              res.send("Not Authenticated");
-            }
-          }
+          res.send("Not Authenticated");
         }
-    });
+      }
+    }
+  });
 });
 
 
 //Profile post viewing
 app.get("/posts", (req, res) => {
-  if(req.isAuthenticated()) {
-    Listing.find({userEmail: req.user.username}, (err, foundItems) => {
+  if (req.isAuthenticated()) {
+    Listing.find({
+      userEmail: req.user.username
+    }, (err, foundItems) => {
 
-        res.render("tanks", {
-          tanks: foundItems,
-          pageTitle: "View all of you're posts",
-        });
+      res.render("tanks", {
+        tanks: foundItems,
+        pageTitle: "View all of you're posts",
+        title: req.user.displayName+"'s posts"
+      });
     });
   } else {
     res.redirect("/signin");
@@ -384,21 +437,23 @@ app.get("/posts", (req, res) => {
 
 //post listings
 app.get("/compose", function(req, res) {
-if(req.isAuthenticated()) {
-  res.render("compose");
-} else {
-  res.redirect("/signin")
-}
+  if (req.isAuthenticated()) {
+    res.render("compose", {
+      title: "p-dookie.ca | Compose"
+    });
+  } else {
+    res.redirect("/signin")
+  }
 });
 
 app.post("/compose", function(req, res) {
 
   const type = "listing";
 
-  if(req.isAuthenticated()) {
+  if (req.isAuthenticated()) {
 
     if (req.body.tanks === "on") {
-      const it = new Listing ({
+      const it = new Listing({
         tankName: req.body.title,
         tankBody: req.body.body,
 
@@ -416,7 +471,7 @@ app.post("/compose", function(req, res) {
         userEmail: req.user.username,
 
         offer: {
-          offer: "$0. USD"
+          offer: "0"
         },
 
         images: [
@@ -430,10 +485,10 @@ app.post("/compose", function(req, res) {
       });
       it.save();
       res.redirect("/tanks");
-      
+
     } else if (req.body.ifvs === "on") {
 
-      const it = new Listing ({
+      const it = new Listing({
         tankName: req.body.title,
         tankBody: req.body.body,
 
@@ -451,7 +506,7 @@ app.post("/compose", function(req, res) {
         userEmail: req.user.username,
 
         offer: {
-          offer: "$0. USD"
+          offer: "0"
         },
 
         images: [
@@ -468,7 +523,7 @@ app.post("/compose", function(req, res) {
 
     } else if (req.body.armcars === "on") {
 
-      const it = new Listing ({
+      const it = new Listing({
         tankName: req.body.title,
         tankBody: req.body.body,
 
@@ -486,7 +541,7 @@ app.post("/compose", function(req, res) {
         userEmail: req.user.username,
 
         offer: {
-          offer: "$0. USD"
+          offer: "0"
         },
 
         images: [
@@ -512,7 +567,9 @@ app.post("/compose", function(req, res) {
 //Acount stuff
 //Login
 app.get("/signin", function(req, res) {
-  res.render("signin");
+  res.render("signin", {
+    title: "p-dookie.ca | Login"
+  });
 });
 
 app.post("/signin", function(req, res) {
@@ -521,11 +578,11 @@ app.post("/signin", function(req, res) {
     password: req.body.password
   });
 
-  req.login(user, function(err){
+  req.login(user, function(err) {
     if (err) {
       console.log(err)
     } else {
-      passport.authenticate("local")(req, res, function(){
+      passport.authenticate("local")(req, res, function() {
         res.redirect('/');
       });
     }
@@ -534,53 +591,62 @@ app.post("/signin", function(req, res) {
 
 //register
 app.get("/pricing", function(req, res) {
-  res.render("signup");
+  res.render("signup", {
+    title: "p-dookie.ca | Pricing"
+  });
 });
 
-      app.get("/peasant", function(req, res) {
-        // res.render("create-form", {
-        //   createTitle: peasantSignup,
-        // });
-        res.redirect("/register")
-      });
+app.get("/peasant", function(req, res) {
+  // res.render("create-form", {
+  //   createTitle: peasantSignup,
+  // });
+  res.redirect("/register")
+});
 
-      app.get("/premium", function(req, res) {
-        // res.render("create-form", {
-        //   createTitle: premiumSignup,
-        // });
-        res.redirect("/register")
-      });
+app.get("/premium", function(req, res) {
+  // res.render("create-form", {
+  //   createTitle: premiumSignup,
+  // });
+  res.redirect("/register")
+});
 
-      app.get("/millitia", function(req, res) {
-        // res.render("create-form", {
-        //   createTitle: millitiaSignup,
-        // });
-        res.redirect("/register")
-      });
+app.get("/millitia", function(req, res) {
+  // res.render("create-form", {
+  //   createTitle: millitiaSignup,
+  // });
+  res.redirect("/register")
+});
 
 app.get("/register", (req, res) => {
   res.render("register", {
-    msg: "Upload a profile picture"
+    msg: "Upload a profile picture",
+    title: "p-dookie.ca | Register"
   })
 });
 
 app.post("/register", (req, res) => {
   upload(req, res, (error) => {
-    if(error) {
+    if (error) {
       res.render("register", {
         msg: error,
+        title: "p-dookie.ca | Register"
       });
     } else {
-      if(req.file == undefined) {
+      if (req.file == undefined) {
         res.render("register", {
-          msg: "Error: no file selected!"
+          msg: "Error: no file selected!",
+          title: "p-dookie.ca | Register"
         });
       } else {
-        User.register({username: req.body.username, displayName: req.body.displayName, profile: req.file.filename }, req.body.password, (err, user) => {
-          if(err) {
-            res.send("fuckieWuckie, "  + err);
+        User.register({
+          username: req.body.username,
+          displayName: req.body.displayName,
+          profile: req.file.filename
+        }, req.body.password, (err, user) => {
+          if (err) {
+            res.send("fuckieWuckie, " + err);
           } else {
-            passport.authenticate("local")(req, res, function(){
+            passport.authenticate("local")(req, res, function() {
               res.redirect("/")
             });
           }
@@ -590,6 +656,15 @@ app.post("/register", (req, res) => {
   });
 });
 
+app.get("/api", (req, res) => {
+  res.render("info", {
+    title: "p-dookie.ca | API",
+    info: "API not currently live",
+    te: "As I have just recently decided to create an API, it is not currently live. You can make requests as to what you would like to see in the API by emailing me at colm@p-dookie.ca",
+    moreTe: "Thank you for you're interest, god bless you're soul"
+  })
+})
+
 //logout
 app.get("/logout", (req, res) => {
   req.logout();
@@ -597,7 +672,9 @@ app.get("/logout", (req, res) => {
 });
 
 app.use(function(req, res, next) {
-  res.status(404).render("failure");
+  res.status(404).render("failure", {
+    title: "p-dookie.ca | 404"
+  });
 });
 
 app.listen(process.env.PORT || 3000, function() {

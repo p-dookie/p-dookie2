@@ -2,12 +2,27 @@ h3, h4 {
   font-family: 'Bebas Neue', cursive
 }
 
-.center-izer{
-  width: 100%;
-  max-width: 330px;
-  padding: 15px;
-  margin: 10% auto;
-  text-align: center;
+.form-control {
+  font-size: 1rem;
+  border-radius: 6px;
+  margin: 2rem 0;
+}
+
+.form-signin {
+  max-width: 300px;
+  margin: 3rem auto;
+}
+
+.formsec {
+  margin: 7% 15%;
+}
+
+.sumber {
+  font-size: 1rem;
+}
+
+.derlan {
+  font-size: 1.5rem;
 }
 
 .head-about {
@@ -292,6 +307,20 @@ video {
     font-size: 3rem;
   }
 
+  .sumber {
+    font-size: 2.6rem;
+    border-radius: 12px;
+  }
+
+  .derlan {
+    font-size: 4rem;
+    border-radius: 12px;
+  }
+
+  .form-signin {
+    max-width: 100%;
+  }
+
   .navbar-brand {
     font-size: 4rem;
   }
@@ -487,7 +516,7 @@ video {
   margin: 10%;
 }
 #profile-page{
-  padding: 7% 15%;
+  padding: 2% 15%;
 }
 
 .button-section {

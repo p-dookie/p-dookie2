@@ -1,4 +1,3 @@
-$(".small").on("click",function(){$("#peen").slideToggle()});
 let smallImage = document.getElementsByClassName("small-img");
 for (let i = 0; i < smallImage.length; i++) {
   let currentImage = smallImage[i];
@@ -42,6 +41,3 @@ $(".button-dropdown").on("click", function() {
 });
 var memeNumber = Math.floor(Math.random() * 21 + 1);
 $("#fail-img").attr("src", "/memeimgs/img" + memeNumber + ".png");
-$(".BeanusFeanus").on("click", function() {
-  window.open("https://youtu.be/LDEFMSJCPSE");
-});
