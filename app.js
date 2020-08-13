@@ -90,6 +90,12 @@ passport.deserializeUser(function(id, done) {
   });
 });
 
+const listsSchema = new mongoose.Schema({
+  listName: String,
+  listBody: String,
+  creator: String,
+})
+
 //Listing Schema
 const tankSchema = new mongoose.Schema({
   tankName: String,
@@ -124,6 +130,7 @@ const tankSchema = new mongoose.Schema({
 
 //Listing model
 const Listing = mongoose.model("Listing", tankSchema);
+const List = mongoose.model("List", listsSchema )
 
 //constants
 const tankPageTitle = "tanks!";
@@ -152,270 +159,6 @@ app.get("/", function(req, res) {
     });
   }
 });
-
-
-//All hardcoded pages
-app.get("/tanks", function(req, res) {
-  Listing.find({
-    type: "tank"
-  }, function(err, foundItems) {
-    res.render("tanks", {
-      tanks: foundItems,
-      pageTitle: "Browse our wide selection of tanks",
-      title: "p-dookie.ca | Tanks"
-    });
-  });
-});
-
-app.get("/ifv", function(req, res) {
-  Listing.find({
-    type: "ifv"
-  }, function(err, foundItems) {
-    res.render("tanks", {
-      tanks: foundItems,
-      pageTitle: "Browse our wide selection of IFV's",
-      title: "p-dookie.ca | IFV's"
-    });
-  });
-});
-
-app.get("/armouredcars", function(req, res) {
-  Listing.find({
-    type: "armcar"
-  }, function(err, foundItems) {
-    res.render("tanks", {
-      tanks: foundItems,
-      pageTitle: "Browse our wide selection of Armoured Cars",
-      title: "p-dookie.ca | Armoured Cars"
-    });
-  });
-});
-
-
-//individual pages
-app.get("/tanks/:tankId", function(req, res) {
-  const requestedTitle = req.params.tankId;
-  Listing.findOne({
-    _id: requestedTitle
-  }, function(err, foundItem) {
-    if (err) {
-      console.log(err)
-    } else {
-      if (!foundItem) {
-        res.render("failure", {
-          title: "p-dookie.ca | 404"
-        });
-      } else {
-        res.render("user-page", {
-          tank: foundItem,
-          title: "p-dookie.ca | "+foundItem.tankName
-        });
-      }
-    }
-  });
-});
-
-app.get("/ifvs/:ifvId", function(req, res) {
-  Listing.findOne({
-    _id: req.params.ifvId
-  }, function(err, foundItem) {
-    if (err) {
-      console.log(err)
-    } else {
-      if (!foundItem) {
-        res.render("failure", {
-          title: "p-dookie.ca | 404"
-        });
-      } else {
-        res.render("user-page", {
-          tank: foundItem,
-          title: "p-dookie.ca | "+foundItem.tankName
-        });
-      }
-    }
-  });
-});
-
-app.get("/armouredcars/:armcarId", function(req, res) {
-  const requestedTitle = req.params.armcarId;
-  Listing.findOne({
-    _id: requestedTitle
-  }, function(err, foundItem) {
-    if (err) {
-      console.log(err)
-    } else {
-      if (!foundItem) {
-        res.render("failure", {
-          title: "p-dookie.ca | 404"
-        });
-      } else {
-        res.render("user-page", {
-          tank: foundItem,
-          title: "p-dookie.ca | "+foundItem.tankName
-        });
-      }
-    }
-  });
-});
-
-
-//Make offers
-app.get("/tanks/:tankId/makeoffer", (req, res) => {
-  Listing.findOne({
-    _id: req.params.tankId
-  }, (err, foundItem) => {
-    if (err) {
-      console.log(err)
-    } else {
-      if (!foundItem) {
-        res.send("The listing you are looking for cannot be found")
-      } else {
-        if (req.isAuthenticated()) {
-          res.render("user-page2", {
-            tank: foundItem,
-            title: "Make an offer on "+foundItem.tankName
-          });
-        } else {
-          res.redirect("/signin");
-        }
-      }
-    }
-  })
-});
-
-app.get("/ifvs/:ifvId/makeoffer", (req, res) => {
-  Listing.findOne({
-    _id: req.params.ifvId
-  }, (err, foundItem) => {
-    if (err) {
-      console.log(err)
-    } else {
-      if (!foundItem) {
-        res.send("The listing you are looking for cannot be found")
-      } else {
-        if (req.isAuthenticated()) {
-          res.render("user-page2", {
-            tank: foundItem,
-            title: "Make an offer on "+foundItem.tankName
-          });
-        } else {
-          res.redirect("/signin");
-        }
-      }
-    }
-  })
-});
-
-app.get("/armouredcars/:armcarId/makeoffer", (req, res) => {
-  Listing.findOne({
-    _id: req.params.armcarId
-  }, (err, foundItem) => {
-    if (err) {
-      console.log(err)
-    } else {
-      if (!foundItem) {
-        res.send("The listing you are looking for cannot be found");
-      } else {
-        if (req.isAuthenticated()) {
-          res.render("user-page2", {
-            tank: foundItem,
-            title: "Make an offer on "+foundItem.tankName
-          });
-        } else {
-          res.redirect("/signin");
-        }
-      }
-    }
-  })
-});
-
-
-//Post offers
-app.post("/tanks/:tankId", (req, res) => {
-  Listing.findOne({
-    _id: req.params.tankId
-  }, (err, foundItem) => {
-    if (err) {
-      console.log(err);
-    } else {
-      if (!foundItem) {
-        res.send("Sorry, an error occured, try again");
-      } else {
-        if (req.isAuthenticated()) {
-          //send this data to the user who posted the listing
-          if (req.body.amount > foundItem.offer.offer) {
-            foundItem.offer = {
-              offer: req.body.amount,
-              user: req.user.displayName,
-              userEmail: req.user.username
-            };
-            foundItem.save();
-            res.send('Offer has been confirmed');
-          } else {
-            res.send('Offer has been confirmed');
-          }
-        } else {
-          res.send("Not Authenticated");
-        }
-      }
-    }
-  });
-});
-
-app.post("/armouredcars/:armcarId", (req, res) => {
-  Listing.findOne({
-    _id: req.params.armcarId
-  }, (err, foundItem) => {
-    if (err) {
-      console.log(err);
-    } else {
-      if (!foundItem) {
-        res.send("Sorry, an error occured, try again");
-      } else {
-        if (req.isAuthenticated()) {
-          foundItem.offer = {
-            offer: req.body.amount,
-            user: req.user.displayName,
-            userEmail: req.user.username
-          };
-          //send this data to the user who posted the listing
-          foundItem.save();
-          res.send('Offer has been confirmed')
-        } else {
-          res.send("Not Authenticated");
-        }
-      }
-    }
-  });
-});
-
-app.post("/ifvs/:ifvId", (req, res) => {
-  Listing.findOne({
-    _id: req.params.ifvId
-  }, (err, foundItem) => {
-    if (err) {
-      console.log(err);
-    } else {
-      if (!foundItem) {
-        res.send("Sorry, an error occured, try again");
-      } else {
-        if (req.isAuthenticated()) {
-          foundItem.offer = {
-            offer: req.body.amount,
-            user: req.user.displayName,
-            userEmail: req.user.username
-          };
-          //send this data to the user who posted the listing
-          foundItem.save();
-          res.send('Offer has been confirmed')
-        } else {
-          res.send("Not Authenticated");
-        }
-      }
-    }
-  });
-});
-
 
 //Profile post viewing
 app.get("/posts", (req, res) => {
@@ -451,8 +194,6 @@ app.post("/compose", function(req, res) {
   const type = "listing";
 
   if (req.isAuthenticated()) {
-
-    if (req.body.tanks === "on") {
       const it = new Listing({
         tankName: req.body.title,
         tankBody: req.body.body,
@@ -464,8 +205,8 @@ app.post("/compose", function(req, res) {
         tankBody3: req.body.thirdBody,
 
         tankPrice: req.body.price,
-        type: "tank",
-        locale: "/tanks/",
+        type: req.body.where,
+        locale: "/"+ req.body.where +"/",
 
         user: req.user.displayName,
         userEmail: req.user.username,
@@ -482,85 +223,47 @@ app.post("/compose", function(req, res) {
           req.body.fifthTanksource,
           req.body.sithTanksource,
         ]
-      });
+      })
+
       it.save();
-      res.redirect("/tanks");
+      res.redirect("/"+req.body.where);
 
-    } else if (req.body.ifvs === "on") {
-
-      const it = new Listing({
-        tankName: req.body.title,
-        tankBody: req.body.body,
-
-        tankName2: req.body.secondTitle,
-        tankBody2: req.body.secondBody,
-
-        tankName3: req.body.thirdTitle,
-        tankBody3: req.body.thirdBody,
-
-        tankPrice: req.body.price,
-        type: "ifv",
-        locale: "/ifvs/",
-
-        user: req.user.displayName,
-        userEmail: req.user.username,
-
-        offer: {
-          offer: "0"
-        },
-
-        images: [
-          req.body.tanksource,
-          req.body.secondTanksource,
-          req.body.thirdTanksource,
-          req.body.fourthTanksource,
-          req.body.fifthTanksource,
-          req.body.sithTanksource,
-        ]
-      });
-      it.save();
-      res.redirect("/ifv");
-
-    } else if (req.body.armcars === "on") {
-
-      const it = new Listing({
-        tankName: req.body.title,
-        tankBody: req.body.body,
-
-        tankName2: req.body.secondTitle,
-        tankBody2: req.body.secondBody,
-
-        tankName3: req.body.thirdTitle,
-        tankBody3: req.body.thirdBody,
-
-        tankPrice: req.body.price,
-        type: "armcar",
-        locale: "/armouredcars/",
-
-        user: req.user.displayName,
-        userEmail: req.user.username,
-
-        offer: {
-          offer: "0"
-        },
-
-        images: [
-          req.body.tanksource,
-          req.body.secondTanksource,
-          req.body.thirdTanksource,
-          req.body.fourthTanksource,
-          req.body.fifthTanksource,
-          req.body.sithTanksource,
-        ]
-      });
-      it.save();
-      res.redirect("/armouredcars");
-
-    } else {
-      res.send("Well fuck, error code, c0d21ce7bed8fec07491b082ef6b12b80a701528. Try changing the version to the one prior.")
-    }
   } else {
     res.send("Not Authenticated");
+  }
+});
+
+app.get("/createlist", (req, res) => {
+  if(req.isAuthenticated()) {
+    res.render("createlist", {
+      title: "p-dookie.ca | Create List"
+    });
+  } else {
+    res.redirect("/signin");
+  }
+});
+
+app.post("/createlist", (req, res) => {
+  if(req.isAuthenticated()) {
+    List.findOne({listName: req.body.name}, (err, foundItem) => {
+      if(err) {
+        console.log(err);
+      } else {
+        if(!foundItem) {
+          const newList = new List({
+            listName: req.body.name.toLowerCase(),
+            listBody: req.body.description,
+            creator: req.user.username,
+          });
+          newList.save();
+          res.redirect("/dashboard");
+        } else {
+          res.send("Already there")
+        }
+      }
+    });
+  } else {
+    res.redirect("/signin")
   }
 });
 
@@ -656,6 +359,19 @@ app.post("/register", (req, res) => {
   });
 });
 
+app.get("/dashboard", (req, res) => {
+  List.find({}, (err, foundItems) => {
+    if(err) {
+      console.log(err);
+    } else {
+      res.render("dashboard", {
+        title: "cool",
+        lists: foundItems
+      })
+    }
+  });
+});
+
 app.get("/api", (req, res) => {
   res.render("info", {
     title: "p-dookie.ca | API",
@@ -669,6 +385,157 @@ app.get("/api", (req, res) => {
 app.get("/logout", (req, res) => {
   req.logout();
   res.redirect("/");
+});
+
+app.get("/:listType", (req, res) => {
+  const listType = req.params.listType;
+  List.findOne({listName: listType}, (err, foundItem) => {
+    if(err) {
+      console.log(err)
+    } else {
+      if(!foundItem) {
+        res.render("failure", {
+          title: "p-dookie.ca | 404"
+        });
+      } else {
+        Listing.find({type: foundItem.listName}, (err, foundItems) => {
+          res.render("tanks", {
+            title: "p-dookie.ca | "+foundItem.listName,
+            tanks: foundItems,
+            pageTitle: "Browse our wide selection of "+foundItem.listName,
+          });
+        });
+      }
+    }
+  });
+});
+
+app.get("/:listType/:tankId", (req, res) => {
+  const listType = req.params.listType;
+  const tankId = req.params.tankId;
+  List.findOne({listName: listType}, (err, foundItem) => {
+    if(err) {
+      console.log(err);
+    } else {
+      if(!foundItem) {
+        res.render("failure", {
+          title: "p-dookie.ca | 404",
+        });
+      } else {
+        Listing.findOne({_id: tankId}, (err, foundListing) => {
+          if(err) {
+            res.render("failure", {
+              title: "p-dookie.ca | 404",
+            });
+          } else {
+            if(foundListing.type == listType) {
+              res.render("user-page", {
+                title: "p-dookie.ca | " + foundListing.tankName,
+                tank: foundListing,
+              });
+            } else {
+              res.render("failure", {
+                title: "p-dookie.ca | 404",
+              });
+            }
+          }
+        });
+      }
+    }
+  });
+});
+
+app.get("/:listType/:tankId/makeoffer", (req, res) => {
+  if(req.isAuthenticated()) {
+    const listType = req.params.listType;
+    const tankId = req.params.tankId;
+    List.findOne({listName: listType}, (err, foundItem) => {
+      if(err) {
+        console.log(err);
+      } else {
+        if(!foundItem) {
+          res.render("failure", {
+            title: "p-dookie.ca | 404",
+          });
+        } else {
+          Listing.findOne({_id: tankId}, (err, foundListing) => {
+            if(err) {
+              res.render("failure", {
+                title: "p-dookie.ca | 404",
+              });
+            } else {
+              if(foundListing.type == listType) {
+                res.render("user-page2", {
+                  title: "make and offer on " + foundListing.tankName,
+                  tank: foundListing,
+                });
+              } else {
+                res.render("failure", {
+                  title: "p-dookie.ca | 404",
+                });
+              }
+            }
+          });
+        }
+      }
+    });
+  } else {
+    res.redirect("/signin")
+  }
+});
+
+app.post("/:listType/:tankId", (req, res) => {
+  if(req.isAuthenticated()) {
+    const listType = req.params.listType;
+    const tankId = req.params.tankId;
+    List.findOne({listName: listType}, (err, foundItem) => {
+      if(err) {
+        console.log(err);
+      } else {
+        if(!foundItem) {
+          res.render("failure", {
+            title: "p-dookie.ca | 404",
+          });
+        } else {
+          Listing.findOne({_id: tankId}, (err, foundListing) => {
+            if(err) {
+              res.render("failure", {
+                title: "p-dookie.ca | 404",
+              });
+            } else {
+              if(foundListing.type == listType) {
+                if(foundListing.offer.offer < req.body.amount) {
+                  foundListing.offer.offer = req.body.amount;
+                  foundListing.offer.user = req.user.displayName;
+                  foundListing.offer.userEmail = req.user.username;
+                  foundListing.save();
+                  res.render("info", {
+                    title: "p-dookie.ca | Offer Confirmed!",
+                    info: "Offer confirmed",
+                    te: "Thank you for confirming you're offer, an email was sent to the user " + foundListing.user + " including the details of the offer that was just made.",
+                    moreTe: "Thank you for using our service, you have have any questions or concerns please email me at colm@p-dookie.ca"
+                  });
+                } else {
+                  res.render("info", {
+                    title: "p-dookie.ca | Offer Confirmed!",
+                    info: "Offer confirmed",
+                    te: "Thank you for confirming you're offer, an email was sent to the user " + foundListing.user + " including the details of the offer that was just made.",
+                    moreTe: "Thank you for using our service, you have have any questions or concerns please email me at colm@p-dookie.ca"
+                  });
+                }
+              } else {
+                res.render("failure", {
+                  title: "p-dookie.ca | 404",
+                });
+              }
+            }
+          });
+        }
+      }
+    });
+  } else {
+    res.redirect("/signin")
+  }
 });
 
 app.use(function(req, res, next) {

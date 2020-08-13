@@ -1,0 +1,12 @@
+<%- include("partials/header") -%>
+<div class="comp-body">
+<form class="create-list" action="/createlist" method="post">
+<label>Name your list</label><br>
+<input type="text" name="name" placeholder="Name"><br><br>
+<label>Give you're list a description, include rules and other important details</label><br>
+<textarea name="description" rows="3" cols="80" placeholder="Description"></textarea><br>
+<button class = "btn btn-primary" type="submit" name="button">Submit</button>
+</form>
+</div>
+
+<%- include("partials/footer") -%>

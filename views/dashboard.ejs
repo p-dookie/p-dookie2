@@ -1,0 +1,23 @@
+<%- include("partials/header") -%>
+<div class="gbr">
+    <h6 class="telle">Popular lists</h6>
+    <a class = "telle" href="/createlist">Create a list of you're own</a>
+    <br>
+    <br>
+    <% lists.forEach(function(list) { %>
+      <div class="text">
+        <p class = "title">
+          <strong><%= list.listName %></strong>
+          <br>
+          <%= list.listBody %>
+        </p>
+        <br>
+        <a href="/<%= list.listName %>">View List</a>
+      </div>
+      <br>
+  <% }); %>
+
+
+
+
+<%- include("partials/footer") -%>
