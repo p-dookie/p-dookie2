@@ -132,19 +132,6 @@ const tankSchema = new mongoose.Schema({
 const Listing = mongoose.model("Listing", tankSchema);
 const List = mongoose.model("List", listsSchema )
 
-//constants
-const tankPageTitle = "tanks!";
-const ifvPageTitle = "IFVs!";
-const armcarPageTitle = "armoured cars!"
-
-const getIFV = "/ifvs/";
-const getTank = "/tanks/";
-const getArmcar = "/armouredcars/"
-
-const peasantSignup = "pes";
-const premiumSignup = "pre";
-const millitiaSignup = "mil";
-
 
 //home
 app.get("/", function(req, res) {
@@ -338,18 +325,6 @@ app.get("/pricing", function(req, res) {
   res.render("signup", {
     title: "p-dookie.ca | Pricing"
   });
-});
-
-app.get("/entry", function(req, res) {
-  res.redirect("/register")
-});
-
-app.get("/premium", function(req, res) {
-  res.redirect("/register")
-});
-
-app.get("/enterprise", function(req, res) {
-  res.redirect("/register")
 });
 
 app.get("/register", (req, res) => {
@@ -573,12 +548,6 @@ app.post("/:listType/:tankId", (req, res) => {
   } else {
     res.redirect("/signin")
   }
-});
-
-app.use(function(req, res, next) {
-  res.status(404).render("failure", {
-    title: "p-dookie.ca | 404"
-  });
 });
 
 app.listen(process.env.PORT || 3000, () => {
