@@ -11,6 +11,10 @@ h3, h4 {
   margin: 0;
 }
 
+.muselee {
+  border-radius: 100%;
+}
+
 .form-control {
   font-size: 1rem;
   border-radius: 6px;
@@ -224,7 +228,8 @@ video {
 
 .icon {
   width: 5%;
-  margin-right: 10px
+  margin-right: 10px;
+  border-radius: 100%;
 }
 
 #form {
@@ -253,6 +258,11 @@ video {
   height: 50px;
   border-radius: 12px;
   max-width: 80px;
+}
+
+.upload-img {
+  height: 100px;
+  border-radius: 12px;
 }
 
 .sm-imgs {

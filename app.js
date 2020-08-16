@@ -60,7 +60,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-mongoose.connect("mongodb://localhost:27017/p-dookieDB", {
+mongoose.connect("mongodb+srv://colm-admin:"+ process.env.ADMIN_KEY +"@cluster0.jfrdr.mongodb.net/<dbname>?retryWrites=true&w=majority", {
   useNewUrlParser: true
 });
 mongoose.set("useCreateIndex", true);
@@ -214,22 +214,63 @@ app.post("/compose", function(req, res) {
         offer: {
           offer: "0"
         },
-
-        images: [
-          req.body.tanksource,
-          req.body.secondTanksource,
-          req.body.thirdTanksource,
-          req.body.fourthTanksource,
-          req.body.fifthTanksource,
-          req.body.sithTanksource,
-        ]
       })
 
       it.save();
-      res.redirect("/"+req.body.where);
+
+      res.render("compose2", {
+        tank: it,
+        title: "p-dookie.ca | add images to "+it.tankName,
+      });
 
   } else {
     res.send("Not Authenticated");
+  }
+});
+
+app.post("/compose/addimages/:objectId", (req, res) => {
+  if(req.isAuthenticated()) {
+    const id = req.params.objectId;
+    Listing.findOne({_id: id}, (err, foundItem) => {
+    upload(req, res, (error) => {
+      if (error) {
+        res.render("compose2", {
+          msg: error,
+          title: "p-dookie.ca | Add images",
+          tank: foundItem,
+        });
+      } else {
+        if (req.file == undefined) {
+          res.render("compose2", {
+            msg: "Error: no file selected!",
+            title: "p-dookie.ca | Add images to",
+            tank: foundItem
+          });
+        } else {
+            if(err) {
+              console.log(err);
+            } else {
+              if(!foundItem) {
+                res.send("The item you are trying to find does not exist")
+              } else {
+                if(foundItem.userEmail === req.user.username) {
+                    foundItem.images.unshift(req.file.filename);
+                    foundItem.save();
+                    res.render("compose2", {
+                      title: "p-dookie.ca | Add images",
+                      tank: foundItem
+                    });
+                } else {
+                  res.send("You can't do that")
+              }
+            }
+          }
+        }
+      }
+    });
+      });
+  } else {
+    res.send("Not authenticated")
   }
 });
 
@@ -271,7 +312,7 @@ app.post("/createlist", (req, res) => {
 //Login
 app.get("/signin", function(req, res) {
   res.render("signin", {
-    title: "p-dookie.ca | Login"
+    title: "p-dookie.ca | Login",
   });
 });
 
@@ -283,7 +324,7 @@ app.post("/signin", function(req, res) {
 
   req.login(user, function(err) {
     if (err) {
-      console.log(err)
+      console.log(err);
     } else {
       passport.authenticate("local")(req, res, function() {
         res.redirect('/');
@@ -299,31 +340,23 @@ app.get("/pricing", function(req, res) {
   });
 });
 
-app.get("/peasant", function(req, res) {
-  // res.render("create-form", {
-  //   createTitle: peasantSignup,
-  // });
+app.get("/entry", function(req, res) {
   res.redirect("/register")
 });
 
 app.get("/premium", function(req, res) {
-  // res.render("create-form", {
-  //   createTitle: premiumSignup,
-  // });
   res.redirect("/register")
 });
 
-app.get("/millitia", function(req, res) {
-  // res.render("create-form", {
-  //   createTitle: millitiaSignup,
-  // });
+app.get("/enterprise", function(req, res) {
   res.redirect("/register")
 });
 
 app.get("/register", (req, res) => {
   res.render("register", {
     msg: "Upload a profile picture",
-    title: "p-dookie.ca | Register"
+    title: "p-dookie.ca | Register",
+    tiller: "Enter the following information",
   })
 });
 
@@ -332,13 +365,15 @@ app.post("/register", (req, res) => {
     if (error) {
       res.render("register", {
         msg: error,
+        tiller: "Enter the following information",
         title: "p-dookie.ca | Register"
       });
     } else {
       if (req.file == undefined) {
         res.render("register", {
           msg: "Error: no file selected!",
-          title: "p-dookie.ca | Register"
+          title: "p-dookie.ca | Register",
+          tiller: "Enter the following information",
         });
       } else {
         User.register({
@@ -347,8 +382,10 @@ app.post("/register", (req, res) => {
           profile: req.file.filename
         }, req.body.password, (err, user) => {
           if (err) {
-            res.send("fuckieWuckie, " + err);
-          } else {
+            res.render("register", {
+              title: "p-dookie.ca | Error in registration",
+              tiller: err,
+            });          } else {
             passport.authenticate("local")(req, res, function() {
               res.redirect("/")
             });
@@ -365,7 +402,7 @@ app.get("/dashboard", (req, res) => {
       console.log(err);
     } else {
       res.render("dashboard", {
-        title: "cool",
+        title: "p-dookie.ca | dashboard",
         lists: foundItems
       })
     }
@@ -544,6 +581,6 @@ app.use(function(req, res, next) {
   });
 });
 
-app.listen(process.env.PORT || 3000, function() {
+app.listen(process.env.PORT || 3000, () => {
   console.log("Server started at port 3000.");
 });

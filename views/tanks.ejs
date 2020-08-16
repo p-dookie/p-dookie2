@@ -8,7 +8,7 @@
 <% tanks.forEach(function(tank) { %>
   <div class="card custurd col-lg-4">
     <h2 class="tank-title"> <%= tank.tankName.substring(0, 20) %></h2>
-    <img class="tank-img" src="<%= tank.images[0] %>" alt="tank-img, posted by user">
+    <img class="tank-img" src="/uploads/<%= tank.images[0] %>" alt="tank-img, posted by user">
     <p class="title"><%= tank.tankBody.substring(0, 350) %> ...</p>
     <br>
     <div class="fink">

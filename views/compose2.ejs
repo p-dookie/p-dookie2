@@ -1,0 +1,14 @@
+<%- include("partials/header") -%>
+<div class="comp-body text-center">
+  <h1>Now choose images for the listing.</h1>
+  <form class="add-imgs" action="/compose/addimages/<%= tank._id %>" method="post" enctype="multipart/form-data">
+    <p class ="title"><%= typeof msg != 'undefined' ? msg : '' %></p>
+    <input type="file" name="myImage">
+    <button type="submit" class= "btn btn-primary btn-lg btn-block" name="button">Add images</button>
+  </form>
+  <% tank.images.forEach(function(image) { %>
+    <img class = "upload-img" src="/uploads/<%= image %>">
+  <% }); %>
+  <a class = "btn btn-primary btn-block btn-lg" href="<%= tank.locale %><%= tank._id %>">Done</a>
+</div>
+<%- include("partials/footer") -%>

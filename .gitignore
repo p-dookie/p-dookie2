@@ -1,6 +1,3 @@
 .DS_Store
-secrets.txt
 node_modules
-images
-vehicles.json
-uploads
+.env
