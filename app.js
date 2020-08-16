@@ -147,6 +147,19 @@ app.get("/", function(req, res) {
   }
 });
 
+app.get("/dashboard", (req, res) => {
+  List.find({}, (err, foundItems) => {
+    if(err) {
+      console.log(err);
+    } else {
+      res.render("dashboard", {
+        title: "p-dookie.ca | dashboard",
+        lists: foundItems
+      })
+    }
+  });
+});
+
 //Profile post viewing
 app.get("/posts", (req, res) => {
   if (req.isAuthenticated()) {
@@ -367,19 +380,6 @@ app.post("/register", (req, res) => {
           }
         });
       }
-    }
-  });
-});
-
-app.get("/dashboard", (req, res) => {
-  List.find({}, (err, foundItems) => {
-    if(err) {
-      console.log(err);
-    } else {
-      res.render("dashboard", {
-        title: "p-dookie.ca | dashboard",
-        lists: foundItems
-      })
     }
   });
 });
