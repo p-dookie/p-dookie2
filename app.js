@@ -60,7 +60,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-mongoose.connect("mongodb+srv://colm-admin:pxJIwgdY8Ixby45E@cluster0.jfrdr.mongodb.net/p-dookieDB?retryWrites=true&w=majority", {
+mongoose.connect("mongodb+srv://colm-admin:pxJIwgdY8Ixby45E@cluster0.jfrdr.mongodb.net/", {
   useNewUrlParser: true
 });
 mongoose.set("useCreateIndex", true);
