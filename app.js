@@ -6,6 +6,7 @@ const ejs = require("ejs");
 const multer = require('multer');
 const mongoose = require("mongoose");
 const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
 const passport = require("passport");
 const path = require('path');
 const passportLocalMongoose = require("passport-local-mongoose");
@@ -53,6 +54,7 @@ app.use(bodyParser.urlencoded({
 //user cookies and passport
 app.use(session({
   secret: "Our little secret.",
+  store: new MongoStore({ mongooseConnection: mongoose.connection }),
   resave: false,
   saveUninitialized: false
 }));
