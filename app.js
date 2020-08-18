@@ -11,6 +11,9 @@ const passport = require("passport");
 const path = require('path');
 const passportLocalMongoose = require("passport-local-mongoose");
 
+//init app
+const app = express();
+
 const storage = multer.diskStorage({
   destination: './public/uploads/',
   fileName: function(req, file, cb) {
@@ -42,8 +45,6 @@ function checkFileType(file, cb) {
   }
 }
 
-//init app
-const app = express();
 
 app.use(express.static("public"));
 app.set('view engine', 'ejs');
