@@ -138,19 +138,20 @@ const List = mongoose.model("List", listsSchema )
 
 
 //home
+app.get("/", function(req, res) {
+  if (req.isAuthenticated()) {
+    res.render("profile", {
+      user: req.user,
+      title: "p-dookie.ca | " + req.user.displayName,
+    });
+  } else {
+    res.render("index", {
+      title: "p-dookie.ca | Home"
+    });
+  }
+});
 
 app.get("/dashboard", (req, res) => {
-  List.find({}, (err, foundItems) => {
-    if(err) {
-      console.log(err);
-    } else {
-      res.render("dashboard", {
-        title: "p-dookie.ca | dashboard",
-        lists: foundItems
-      })
-    }
-  });
-});app.get("/dashboard", (req, res) => {
   List.find({}, (err, foundItems) => {
     if(err) {
       console.log(err);
