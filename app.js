@@ -26,7 +26,7 @@ const storage = multer.diskStorage({
 const upload = multer({
   storage: storage,
   limits: {
-    fileSize: 1000000
+    fileSize: 2500000
   },
   fileFilter: function(req, file, cb) {
     checkFileType(file, cb);
@@ -209,8 +209,8 @@ app.post("/compose", function(req, res) {
         tankBody3: req.body.thirdBody,
 
         tankPrice: req.body.price,
-        type: req.body.where,
-        locale: "/"+ req.body.where +"/",
+        type: req.body.where.toLowerCase(),
+        locale: "/"+ req.body.where +"/".toLowerCase(),
 
         user: req.user.displayName,
         userEmail: req.user.username,
