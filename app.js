@@ -445,10 +445,19 @@ app.get("/:listType/:tankId", (req, res) => {
             });
           } else {
             if(foundListing.type == listType) {
-              res.render("user-page", {
-                title: "p-dookie.ca | " + foundListing.tankName,
-                tank: foundListing,
-              });
+              if(foundListing.images[0] === undefined) {
+                res.render("user-page", {
+                  title: "p-dookie.ca | " + foundListing.tankName,
+                  tank: foundListing,
+                  oneImage: "/images/no-img.png"
+                });
+              } else {
+                res.render("user-page", {
+                  title: "p-dookie.ca | " + foundListing.tankName,
+                  tank: foundListing,
+                  oneImage: '/uploads/' + foundListing.images[0]
+                });
+              }
             } else {
               res.render("failure", {
                 title: "p-dookie.ca | 404",

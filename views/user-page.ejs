@@ -1,9 +1,9 @@
 <%- include("partials/header") -%>
   <div class="main-img">
-    <img class="main-itself" src="/uploads/<%= tank.images[0] %>" alt="Fuc">
+    <img class="main-itself" src="<%= oneImage %>" alt="Fuc">
   </div>
   <div class="sm-imgs">
-    <img class="current small-img " src="/uploads/<%= tank.images[0] %>" alt="">
+    <img class="current small-img " src="<%= oneImage %>" alt="">
 <% for(let i = 1; i < tank.images.length; i++) { %>
   <img class="small-img " src="/uploads/<%= tank.images[i] %>" alt="">
 <% } %>
