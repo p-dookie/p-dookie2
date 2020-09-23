@@ -1,9 +1,4 @@
 .DS_Store
 .env
 node_modules
-python_modules
-img_array.js
-uploads
-main.py
-student.json
-teacher.json
+
